@@ -12,8 +12,6 @@ class BoardTest {
   @BeforeEach
   void setUp() {
     board = new Board();
-    board.initTiles();
-    board.initPieces();
   }
 
   /**
@@ -23,7 +21,7 @@ class BoardTest {
    */
   @Test
   void test1() {
-    assertEquals(board.getTileOccupation("1A"), "Occupied");
+    assertEquals(board.map.getPieceOrOccupation("tileOccupation", "1A"), "Occupied");
   }
 
   /**
@@ -33,7 +31,7 @@ class BoardTest {
    */
   @Test
   void test2() {
-    assertEquals(board.getTileOccupation("3H"), "Empty");
+    assertEquals(board.map.getPieceOrOccupation("tileOccupation", "3H"), "Empty");
   }
 
   /**
@@ -43,7 +41,7 @@ class BoardTest {
    */
   @Test
   void test3() {
-    assertEquals(board.getTileOccupation("8C"), "Occupied");
+    assertEquals(board.map.getPieceOrOccupation("tileOccupation", "8C"), "Occupied");
   }
 
   /**
@@ -53,7 +51,7 @@ class BoardTest {
   */
   @Test
   void test4() {
-    assertEquals(board.getPiece("1E"), "WhiteKing");
+    assertEquals(board.map.getPieceOrOccupation("piecePos", "1E"), "WhiteKing");
   }
 
   /** This tests to see if a pawn is in its correct starting co-ordinate (as pawns are put into
@@ -61,7 +59,7 @@ class BoardTest {
    */
   @Test
   void test5() {
-    assertEquals(board.getPiece("2F"), "WhitePawn6");
+    assertEquals(board.map.getPieceOrOccupation("piecePos", "2F"), "WhitePawn6");
   }
   
   /**
@@ -70,7 +68,7 @@ class BoardTest {
    */
   @Test
   void test6() {
-    assertEquals(board.getPiece("6D"), null);
+    assertEquals(board.map.getPieceOrOccupation("piecePos", "6D"), null);
   }
   
   /**
@@ -79,7 +77,7 @@ class BoardTest {
    */
   @Test
   void test7() {
-    assertEquals(board.getTile("BlackKing"), "8E");
+    assertEquals(board.map.getTile("BlackKing"), "8E");
   }
   
   /**
@@ -88,30 +86,30 @@ class BoardTest {
    */
   @Test
   void test8() {
-    board.printStatus();
+    board.map.printStatus();
   }
  
   
   /**
    * This tests to see if I can set a new piece position by providing the tile co-ord and piece,
    * where the tile co-ord will be where the new piece's position is. I use my getPiece and
-   * getTileOccupation methods, which have been tested above, to check to see if the tile 
-   * occupation has updated, so 6A is now set to Occupied and 8E (the previous piece position) is 
-   * now set to Empty. The final check is that the piece in 8E is now null (as no piece sits there 
-   * anymore).
+   * getPieceOrOccupation("tileOccupation",  methods, which have been tested above, to check to see 
+   * if the tile occupation has updated, so 6A is now set to Occupied and 8E (the previous piece 
+   * position) is now set to Empty. The final check is that the piece in 8E is now null (as no piece
+   * sits there anymore).
    */
   @Test
   void test9() {
     // This line of the code below is the only line actually being tested here
-    board.setPiecePos("6A", "BlackKing");
+    board.map.setValue("piecePos", "6A", "BlackKing");
     /* The lines below simply verify the setter has worked for setting the new tile position
      * of a chess piece, and has set the old tile to empty and null for containing a chess piece.
      */
-    assertEquals(board.getPiece("6A"), "BlackKing");
-    assertEquals(board.getTileOccupation("6A"), "Occupied");
-    assertEquals(board.getPiece("8E"), null);
-    assertEquals(board.getTileOccupation("8E"), "Empty");
-    board.printStatus();
+    assertEquals(board.map.getPieceOrOccupation("piecePos", "6A"), "BlackKing");
+    assertEquals(board.map.getPieceOrOccupation("tileOccupation", "6A"), "Occupied");
+    assertEquals(board.map.getPieceOrOccupation("piecePos", "8E"), null);
+    assertEquals(board.map.getPieceOrOccupation("tileOccupation", "8E"), "Empty");
+    board.map.printStatus();
   }
 
 }
