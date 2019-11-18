@@ -28,7 +28,7 @@ public class TreeMaps {
    * @param value the value associated with my key
    */
   public void setValue(String map, String key, String value) {
-    if (map == "piecePos") {  
+    if (map == "piecePos" && value != "null") {  
       String oldPos = getTile(value);
       
       piecePos.put(key, value);
@@ -39,6 +39,10 @@ public class TreeMaps {
         tileOccupation.replace(oldPos, "Empty");
       }
   
+    } else if (map == "piecePos" && value == "null") {
+      piecePos.put(key, value);
+      tileOccupation.put(key, "Empty");
+     
     } else if (map == "tileOccupation") {
       tileOccupation.put(key, value);
   
