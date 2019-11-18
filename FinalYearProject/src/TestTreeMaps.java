@@ -77,5 +77,20 @@ class TestTreeMaps {
     assertEquals(map.capturedPieces.contains("WhiteRook1"), true);
   }
   
+  /**
+   * This tests my refactored setValue method. When trying to update a tile containing a piece
+   * to null (thus removing the piece), that it also automatically updates the tileOccupation
+   * for that tile to "Empty", without needing to do that manually separately.
+   */
+  @Test
+  void test7() {
+    map.setValue("piecePos", "1A", "WhiteRook1");
+    map.setValue("piecePos", "2A", "WhitePawn1");
+    map.printStatus();
+    map.setValue("piecePos", "1A", "null");
+    assertEquals(map.getPieceOrOccupation("tileOccupation", "1A"), "Empty");
+    map.printStatus();
+  }
+  
 
 }
