@@ -53,7 +53,9 @@ public class Rook {
         // If a tile in the Rook's path is not null (occupied by a piece), move is invalid.
         System.out.println("The tile is: " + toRow + String.valueOf((char)i));
         
-        if (board.map.getPieceOrOccupation("piecePos", toRow + String.valueOf((char)i)) != null) {
+        if (board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf((char)i)) 
+            == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+            "piecePos", toRow + String.valueOf((char)i))) == false) {
           System.out.println("Illegal Move. There is a piece in your Rook's movement path "
               + "(Tile: " + toRow + String.valueOf((char)i) + ")");
           pieceInPath++;
@@ -75,7 +77,8 @@ public class Rook {
         // If a tile in the Rook's path is not null (occupied by a piece, move is invalid.
         System.out.println("The tile is: " + toRow + String.valueOf((char)i));
         if (board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf((char)i)) 
-            == "Occupied") {
+            == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+            "piecePos", toRow + String.valueOf((char)i))) == false) {
           System.out.println("Illegal Move. There is a piece in your Rook's movement path "
               + "(Tile: " + toRow + String.valueOf((char)i) + ")");
           pieceInPath++;
@@ -95,7 +98,8 @@ public class Rook {
       for (int i = fromRow + 1; i < toRow; i++) {
         System.out.println("The tile is: " + i + fromColumn);
         if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf(fromColumn)) 
-            == "Occupied") {
+            == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+            "piecePos", i + String.valueOf(fromColumn))) == false) {
           System.out.println("Illegal Move. There is a piece in your Rook's movement path "
               + "(Tile: " + i + fromColumn + ")");
           pieceInPath++;
@@ -114,8 +118,9 @@ public class Rook {
       System.out.println("----- Moving Down -----");
       for (int i = fromRow - 1; i > toRow; i--) {
         System.out.println("The tile is: " + i + fromColumn);
-        if (board.map.getPieceOrOccupation("piecePos", i + String.valueOf(fromColumn)) 
-            != "Occupied") {
+        if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf(fromColumn)) 
+            == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+            "piecePos", i + String.valueOf(fromColumn))) == false) {
           System.out.println("Illegal Move. There is a piece in your Rook's movement path "
               + "(Tile: " + i + fromColumn + ")");
           pieceInPath++;
@@ -155,6 +160,7 @@ public class Rook {
      */
     if (pieceInPath == 0 && board.map.getPieceOrOccupation("tileOccupation", toTile) == "Empty") {
       board.map.setValue("piecePos", toTile, selectedRook);
+      movedRooks.add(selectedRook);
     
     /*
      * This 'else if' is for checking there are zero pieces in the Rook's movement path, and
@@ -164,6 +170,15 @@ public class Rook {
         "piecePos", toTile)) == true) {
       board.map.capturePiece(board.map.getPieceOrOccupation("piecePos", toTile));
       board.map.setValue("piecePos", toTile, selectedRook);
+    
+    /*
+     * This 'else if' is to check if the piece in the toTile is a King, which is the own player's
+     * King piece, as this would indicate the player might be trying to castle their Rook. 
+     */
+    } else if (board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied" 
+        && piece.isOpponentPiece(player, board.map.getPieceOrOccupation("piecePos", toTile)) 
+        == false && board.map.getPieceOrOccupation("piecePos", toTile).contains("King")) {
+      castling(player, selectedRook, toTile);
     
     /* 
      * This 'else if' assumes the current player's piece is in the destination tile, as the tile is 
@@ -178,6 +193,31 @@ public class Rook {
     pieceInPath = 0; // Reset counter to avoid potential conflicts later
     
     /* If none of the above conditions are met, do nothing. No error message is needed since this is
-    dealt with in the 'movePawn' method */
+    dealt with in the 'moveRook' method */
+  }
+  
+  public void castling(String player, String selectedRook, String toTile) {
+    System.out.println("Lands in Castling");
+  }
+  
+  /**
+   * This method checks to see if a Rook has moved before or not.
+   * If the method returns false (a Rook has not moved yet), this can
+   * be used to indicate that a Rook can castle with the player's King. Else, if 
+   * the Rook has moved before, the Rook cannot then castle with the player's King.
+   * 
+   * @param selectedPiece The pawn the player selected to move
+   * @return True if pawn has not moved (not in list of moved pawns), false if
+   *     pawn has moved (in list of moved pawns)
+   */
+  public boolean firstMove(String selectedPiece) {
+  
+    for (String s : movedRooks) {
+      if (s.equals(selectedPiece)) {
+        return false;
+      }
+    }
+  
+    return true;
   }
 }
