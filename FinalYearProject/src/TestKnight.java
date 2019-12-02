@@ -1,7 +1,9 @@
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import application.Knight;
+import application.exceptions.InvalidPieceException;
+import application.exceptions.InvalidPlayerException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +22,17 @@ class TestKnight {
    */
   @Test
   void test() {
-    System.out.println("Test 1");
-    knight.moveKnight("White", "WhiteKnight1", "3A");
+    try {
+      System.out.println("Test 1");
+      knight.moveKnight("White", "WhiteKnight1", "3A");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "3A"), "WhiteKnight1");
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
   }
   
   /**
@@ -29,8 +40,17 @@ class TestKnight {
    */
   @Test
   void test2() {
-    System.out.println("Test 2");
-    knight.moveKnight("White", "WhiteKnight1", "3C");
+    try {
+      System.out.println("Test 2");
+      knight.moveKnight("White", "WhiteKnight1", "3C");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "3C"), "WhiteKnight1");
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
   }
   
   /**
@@ -38,8 +58,21 @@ class TestKnight {
    */
   @Test
   void test3() {
-    System.out.println("Test 3");
-    knight.moveKnight("White", "WhiteKnight1", "2D");
+    /* The line below overrides all validation methods, to remove the Pawn in 2D so
+    the WhiteKnight1 has a clear path to move. */
+    knight.board.map.setValue("piecePos", "2D", "null");
+    
+    try {
+      System.out.println("Test 3");
+      knight.moveKnight("White", "WhiteKnight1", "2D");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "2D"), "WhiteKnight1");
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
   }
   
   /**
@@ -47,8 +80,21 @@ class TestKnight {
    */
   @Test
   void test4() {
-    System.out.println("Test 4");
-    knight.moveKnight("Black", "BlackKnight1", "7D");
+    /* The line below overrides all validation methods, to remove the Pawn in 7D so
+    the BlackKnight1 has a clear path to move. */
+    knight.board.map.setValue("piecePos", "7D", "null");
+    
+    try {
+      System.out.println("Test 4");
+      knight.moveKnight("Black", "BlackKnight1", "7D");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "7D"), "BlackKnight1");
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
   }
   
   
@@ -57,8 +103,17 @@ class TestKnight {
    */
   @Test
   void test5() {
-    System.out.println("Test 5");
-    knight.moveKnight("Black", "BlackKnight1", "6A");
+    try {
+      System.out.println("Test 5");
+      knight.moveKnight("Black", "BlackKnight1", "6A");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "6A"), "BlackKnight1");
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
   }
   
   /**
@@ -66,8 +121,17 @@ class TestKnight {
    */
   @Test
   void test6() {
-    System.out.println("Test 6");
-    knight.moveKnight("Black", "BlackKnight1", "6C");
+    try {
+      System.out.println("Test 6");
+      knight.moveKnight("Black", "BlackKnight1", "6C");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "6C"), "BlackKnight1");
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
   }
   
   /**
@@ -75,8 +139,21 @@ class TestKnight {
    */
   @Test
   void test7() {
-    System.out.println("Test 7");
-    knight.moveKnight("White", "WhiteKnight2", "2E");
+    /* The line below overrides all validation methods, to remove the Pawn in 2E so
+    the WhiteKnight2 has a clear path to move. */
+    knight.board.map.setValue("piecePos", "2E", "null");
+  
+    try {
+      System.out.println("Test 7");
+      knight.moveKnight("White", "WhiteKnight2", "2E");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "2E"), "WhiteKnight2");
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
   }
   
   /**
@@ -84,8 +161,64 @@ class TestKnight {
    */
   @Test
   void test8() {
-    System.out.println("Test 8");
-    knight.moveKnight("Black", "BlackKnight2", "7E");
+    /* The line below overrides all validation methods, to remove the Pawn in 7E so
+    the BlackKnight2 has a clear path to move. */
+    knight.board.map.setValue("piecePos", "7E", "null");
+  
+    try {
+      System.out.println("Test 8");
+      knight.moveKnight("Black", "BlackKnight2", "7E");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "7E"), "BlackKnight2");
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
+  }
+  
+  /**
+   * This test is to see if I can move my Knight into a destination tile which contains the own
+   * player's piece, or if the method correctly identifies that I cannot move my Knight there.
+   */
+  @Test
+  void test9() {    
+    try {
+      System.out.println("Test 9");
+      knight.moveKnight("White", "WhiteKnight1", "2D");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "2D"), "WhitePawn4");
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
   }
 
+  /**
+   * This test is to see if I can move my Knight into a destination tile which contains an opponent
+   * player's piece, and if the Knight successfully captures the opponent player's piece or not.
+   */
+  @Test
+  void test10() {
+    /* The line below overrides all validation methods, to add an opponent player's piece 
+     * in 3C to see if WhiteKnight1 captures it or not. */
+    knight.board.map.setValue("piecePos", "3C", "BlackPawn1");
+    
+    try {
+      System.out.println("Test 10");
+      knight.moveKnight("White", "WhiteKnight1", "3C");
+      assertEquals(knight.board.map.getPieceOrOccupation("piecePos", "3C"), "WhiteKnight1");
+      assertEquals(knight.board.map.capturedPieces.get(0), "BlackPawn1");
+      System.out.println("Captured: " + knight.board.map.capturedPieces.get(0));
+    } catch (InvalidPlayerException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      e.printStackTrace();
+      fail("Exception Thrown");
+    }
+  }
 }
