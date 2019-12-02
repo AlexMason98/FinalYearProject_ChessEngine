@@ -8,7 +8,7 @@ import application.exceptions.InvalidPlayerException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class QueenTest {
+class TestQueen {
 
   private Queen queen;
   
