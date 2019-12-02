@@ -139,18 +139,18 @@ public class Queen {
        */
       int colDifference = (int)toColumn - (int)fromColumn;
       int rowDifference = toRow - fromRow;
+      int j = (int)fromColumn;
       
       if (colDifference == rowDifference) {
       
         for (int i = fromRow + 1; i < toRow; i++) {
-          for (int j = (int)fromColumn + 1; i < (int)toColumn; i++) {
-            if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j)) 
-                == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-                "piecePos", i + String.valueOf((char)j))) == false) {
-              System.out.println("Illegal Move. There is a piece in your Queen's movement path "
-                  + "(Tile: " + i + (char)j + ")");
-              pieceInPath++;
-            }
+          ++j; // Also increments column to move East as part of moving diagonally North East
+          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j)) 
+              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+              "piecePos", i + String.valueOf((char)j))) == false) {
+            System.out.println("Illegal Move. There is a piece in your Queen's movement path "
+                + "(Tile: " + i + (char)j + ")");
+            pieceInPath++;
           }
         }
         setPos(player, selectedPiece, toTile);
@@ -172,17 +172,17 @@ public class Queen {
        */
       int colDifference = (int)toColumn - (int)fromColumn;
       int rowDifference = fromRow - toRow;
+      int j = (int)fromColumn;
        
       if (colDifference == rowDifference) {
         for (int i = fromRow - 1; i > toRow; i--) {
-          for (int j = (int)fromColumn + 1; j < (int)toColumn; j++) {
-            if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
-                == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-                "piecePos", i + String.valueOf((char)j))) == false) {
-              System.out.println("Illegal Move. There is a piece in your Queen's movement path "
-                  + "(Tile: " + i + (char)j + ")");
-              pieceInPath++;
-            }
+          ++j; // Also increments column to move East as part of moving diagonally South East
+          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
+              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+              "piecePos", i + String.valueOf((char)j))) == false) {
+            System.out.println("Illegal Move. There is a piece in your Queen's movement path "
+                + "(Tile: " + i + (char)j + ")");
+            pieceInPath++;
           }
         }
         setPos(player, selectedPiece, toTile);
@@ -205,17 +205,17 @@ public class Queen {
        */
       int colDifference = (int)fromColumn - (int)toColumn;
       int rowDifference = fromRow - toRow;
+      int j = (int)fromColumn;
       
       if (colDifference == rowDifference) {
         for (int i = fromRow - 1; i > toRow; i--) {
-          for (int j = (int)fromColumn - 1; j > (int)toColumn; j--) {
-            if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
-                == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-                "piecePos", i + String.valueOf((char)j))) == false) {
-              System.out.println("Illegal Move. There is a piece in your Queen's movement path "
-                  + "(Tile: " + i + (char)j + ")");
-              pieceInPath++;
-            }
+          --j; // Also decrements column to move West as part of moving diagonally South West.
+          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
+              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+              "piecePos", i + String.valueOf((char)j))) == false) {
+            System.out.println("Illegal Move. There is a piece in your Queen's movement path "
+                + "(Tile: " + i + (char)j + ")");
+            pieceInPath++;
           }
         }
         setPos(player, selectedPiece, toTile);
@@ -237,17 +237,17 @@ public class Queen {
        */
       int colDifference = (int)fromColumn - (int)toColumn;
       int rowDifference = toRow - fromRow;
+      int j = (int)fromColumn;
        
       if (colDifference == rowDifference) {
         for (int i = fromRow + 1; i < toRow; i++) {
-          for (int j = (int)fromColumn - 1; j > (int)toColumn; j--) {
-            if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
-                == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-                "piecePos", i + String.valueOf((char)j))) == false) {
-              System.out.println("Illegal Move. There is a piece in your Queen's movement path "
-                  + "(Tile: " + i + (char)j + ")");
-              pieceInPath++;
-            }
+          --j; // Also decrements column to move West as part of moving diagonally North West.
+          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
+              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+              "piecePos", i + String.valueOf((char)j))) == false) {
+            System.out.println("Illegal Move. There is a piece in your Queen's movement path "
+                + "(Tile: " + i + (char)j + ")");
+            pieceInPath++;
           }
         }
         setPos(player, selectedPiece, toTile);
