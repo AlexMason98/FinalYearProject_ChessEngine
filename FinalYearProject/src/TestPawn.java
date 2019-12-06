@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import application.Pawn;
+import application.Piece;
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
 
@@ -89,6 +90,31 @@ class TestPawn {
       System.out.println(e.getMessage());
       fail("Exception Thrown");
     }
+  }
+  
+  /**
+   * This tests my isCheckmate method in parent class 'Piece'. It should return true if a Pawn is
+   * putting the opponent's King into checkmate, whilst taking into account the validation rules
+   * for a Pawn.
+   */
+  @Test
+  void test5() {
+    pawn.board.map.setValue("piecePos", "7D", "WhitePawn1");
+   
+    //try {
+    try {
+      pawn.board.map.printStatus();
+      pawn.movePawn("White", "WhitePawn1", "8E");
+      pawn.board.map.printStatus();
+      assertEquals(pawn.piece.isCheckmate("White", "8E"), true);
+    } catch (InvalidPlayerException e) {
+      System.out.println(e.getMessage());
+      fail("Exception Thrown");
+    } catch (InvalidPieceException e) {
+      System.out.println(e.getMessage());
+      fail("Exception Thrown");
+    }
+
   }
   
 }
