@@ -30,48 +30,43 @@ public class Knight {
     
     // MOVING UP 2 SPACES AND 1 SPACE LEFT
     if ((toRow == fromRow + 2) && (toColumn == fromColumn - 1)) {
-      System.out.println("----- Moving 2 Spaces Up and 1 Space Left -----");
       setPos(player, selectedKnight, toTile);
     
     // MOVING UP 2 SPACES AND 1 SPACE RIGHT
     } else if ((toRow == fromRow + 2) && (toColumn == fromColumn + 1)) {
-      System.out.println("----- Moving 2 Spaces Up and 1 Space Right -----");
       setPos(player, selectedKnight, toTile);
     
     // MOVING RIGHT 2 SPACES AND 1 SPACE UP
     } else if ((toColumn == fromColumn + 2) && (toRow == fromRow + 1)) {
-      System.out.println("----- Moving 2 Spaces Right and 1 Space Up -----");
       setPos(player, selectedKnight, toTile);
     
     // MOVING RIGHT 2 SPACES AND 1 SPACE DOWN
     } else if ((toColumn == fromColumn + 2) && (toRow == fromRow - 1)) {
-      System.out.println("----- Moving 2 Spaces Right and 1 Space Down -----");
       setPos(player, selectedKnight, toTile);
       
     // MOVING DOWN 2 SPACES AND 1 SPACE LEFT
     } else if ((toRow == fromRow - 2) && (toColumn == fromColumn - 1)) {
-      System.out.println("----- Moving 2 Spaces Down and 1 Space Left -----");
       setPos(player, selectedKnight, toTile);
     
     // MOVING DOWN 2 SPACES AND 1 SPACE RIGHT
     } else if ((toRow == fromRow - 2) && (toColumn == fromColumn + 1)) {
-      System.out.println("----- Moving 2 Spaces Down and 1 Space Right -----");
       setPos(player, selectedKnight, toTile);
     
     // MOVING LEFT 2 SPACES AND 1 SPACE UP
     } else if ((toColumn == fromColumn - 2) && (toRow == fromRow + 1)) {
-      System.out.println("----- Moving 2 Spaces Left and 1 Space Up -----");
       setPos(player, selectedKnight, toTile);
     
     // MOVING LEFT 2 SPACES AND 1 SPACE DOWN
     } else if ((toColumn == fromColumn - 2) && (toRow == fromRow - 1)) {
-      System.out.println("----- Moving 2 Spaces Left and 1 Space Down -----");
       setPos(player, selectedKnight, toTile);
     
     /* If we have none of the above combinations which are valid moves for a Knight, print "Illegal
      * Move". */
     } else {
-      System.out.println("Illegal Move. Please move your Knight in accordance to the game's rules");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Illegal Move. Please move your Knight in accordance to the game's "
+            + "rules");
+      }
     }
   }
   
@@ -102,12 +97,16 @@ public class Knight {
     } else if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
          && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation("piecePos", toTile)) 
          == false) {
-      System.out.println("Illegal Move. You cannot move your Knight in a tile containing "
-          + "your own piece");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Illegal Move. You cannot move your Knight in a tile containing "
+            + "your own piece");
+      }
       
     // Else, do not set the position of Knight and display message.
     } else {
-      System.out.println("Invalid Move");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Invalid Move");
+      } 
     }
   }
 }

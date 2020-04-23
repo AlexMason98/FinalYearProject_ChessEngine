@@ -2,7 +2,6 @@ package application;
 
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,13 +22,14 @@ public class CheckmateNew {
   public static ArrayList<String> legalTilesBlack = new ArrayList<String>();
  
   /**
-   * NA.
-   * @return .
-   * @throws InvalidPlayerException .
-   * @throws InvalidPieceException .
+   * Method responsible for checking if the King is in checkmate.
+   * Redundant to Checkmate class and then redundant to LegalMoves class.
+   * @return true if King is in checkmate.
+   * @throws InvalidPlayerException If an invalid player is passed.
+   * @throws InvalidPieceException If an invalid piece type is passed.
    */
   public static boolean checkmate() throws InvalidPieceException, InvalidPlayerException {
-  	
+  
     for (Map.Entry<String, String> entry : Board.board.map.piecePos.entrySet()) {
       String value = entry.getValue();
       String player = "";
@@ -64,7 +64,7 @@ public class CheckmateNew {
               if (pawn.passedValidation) {
                 return true;
               }
-            	
+            
             } else if (value.contains("Rook")) {
               rook.moveRook(player, value, kingPos);
               

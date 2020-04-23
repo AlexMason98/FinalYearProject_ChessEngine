@@ -1,9 +1,8 @@
 package application;
 
-import java.io.IOException;
-
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,10 +11,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
  
+  @SuppressWarnings("exports")
   public static Scene scene;
   
   @Override
-  public void start(Stage stage) throws IOException {
+  public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
     FXMLLoader loader = new FXMLLoader(Main.class.getResource("Chessboard.fxml"));
     Pane pane = loader.load();
     

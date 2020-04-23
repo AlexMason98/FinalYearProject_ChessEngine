@@ -2,7 +2,6 @@ package application;
 
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import java.util.ArrayList;
 
 public class King {
@@ -32,42 +31,34 @@ public class King {
     
     // MOVING LEFT
     if (fromRow == toRow && (toColumn == fromColumn - 1)) {
-      System.out.println("Lands in Left");
       setPos(player, selectedPiece, toTile);
     
     // MOVING RIGHT
     } else if (fromRow == toRow && (toColumn == fromColumn + 1)) {
-      System.out.println("Lands in Right");
       setPos(player, selectedPiece, toTile);
     
     // MOVING UP
     } else if (fromColumn == toColumn && (toRow == fromRow + 1)) {
-      System.out.println("Lands in Up");
       setPos(player, selectedPiece, toTile);
     
     // MOVING DOWN
     } else if (fromColumn == toColumn && (toRow == fromRow - 1)) {
-      System.out.println("Lands in Down");
       setPos(player, selectedPiece, toTile);
 
     // MOVING NORTH EAST DIAGONALLY
     } else if ((toColumn == fromColumn + 1) && (toRow == fromRow + 1)) {
-      System.out.println("Lands in North East");
       setPos(player, selectedPiece, toTile);
     
     // MOVING SOUTH EAST DIAGONALLY
     } else if ((toColumn == fromColumn + 1) && (toRow == fromRow - 1)) {
-      System.out.println("Lands in South East");
       setPos(player, selectedPiece, toTile);
     
     // MOVING SOUTH WEST DIAGONALLY
     } else if ((toColumn == fromColumn - 1) && (toRow == fromRow - 1)) {
-      System.out.println("Lands in South West");
       setPos(player, selectedPiece, toTile);
     
     // MOVING NORTH WEST DIAGONALLY
     } else if ((toColumn == fromColumn - 1) && (toRow == fromRow + 1)) {
-      System.out.println("Lands in North West");
       setPos(player, selectedPiece, toTile);
     
     } else {
@@ -88,7 +79,6 @@ public class King {
       throws InvalidPieceException, InvalidPlayerException {
     // If the destination tile is empty
     if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Empty") {
-    	System.out.println("Lands in Tile Empty");
       passedValidation = true;
       movedKing.add(selectedPiece);
       Board.board.map.setValue("piecePos", toTile, selectedPiece);
@@ -97,7 +87,6 @@ public class King {
     } else if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
         && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation("piecePos", toTile)) 
         == true) {
-    	System.out.println("Lands in Opponent Piece");
       passedValidation = true;
       movedKing.add(selectedPiece);
       Board.board.map.capturePiece(Board.board.map.getPieceOrOccupation("piecePos", toTile));
@@ -107,8 +96,6 @@ public class King {
     } else if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
          && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation("piecePos", toTile)) 
          == false) {
-      System.out.println("KING CLASS: LANDS IN HERE");
-      // ADD A CONDITION TO CHECK FOR CASES WHEN CASTLING
       System.out.println("Illegal Move. You cannot move your King on your own piece");
       
     // Else, do not set the position of King and display message.

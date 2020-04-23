@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import application.Board;
 import application.Controller;
 import application.LegalMoves;
-import application.Stalemate;
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,9 @@ import org.junit.jupiter.api.Test;
 
 class TestLegalMoves {
 
+  @SuppressWarnings("unused")
   private LegalMoves algo;
+  @SuppressWarnings("unused")
   private Controller controller;
   
   @BeforeEach
@@ -136,7 +137,7 @@ class TestLegalMoves {
     Board.board.map.setValue("piecePos", "2H", "null");
     Board.board.map.printStatus();
     try {
-      algo.legalMoves("Black");
+      LegalMoves.legalMoves("Black");
     } catch (InvalidPieceException e) {
       fail("Exception Thrown");
       e.printStackTrace();
@@ -156,7 +157,7 @@ class TestLegalMoves {
     // USES SAME POSITIONS AS TEST 3
     Board.board.map.printStatus();
     try {
-      algo.legalMoves("White");
+      LegalMoves.legalMoves("White");
     } catch (InvalidPieceException e) {
       fail("Exception Thrown");
       e.printStackTrace();
@@ -214,7 +215,7 @@ class TestLegalMoves {
     Board.board.map.printStatus();
     
     try {
-      algo.legalMoves("Black");
+      LegalMoves.legalMoves("Black");
     } catch (InvalidPieceException e) {
       fail("Exception Thrown");
       e.printStackTrace();

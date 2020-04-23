@@ -2,7 +2,6 @@ package application;
 
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import java.util.ArrayList;
 
 public class Pawn {
@@ -41,8 +40,6 @@ public class Pawn {
         || toRowNo == fromRowNo + 1) && fromColumn == toColumn)) {
       movingForward = true;
       
-      System.out.println("Case 1");
-      
       /*
        * Checking there isn't a piece of the player's directly in front of the Pawn intending to 
        * move. This check is applicable in the instance that the Pawn is moving 1 space and 2 spaces
@@ -51,10 +48,12 @@ public class Pawn {
       String tempPiece = Board.board.map.getPieceOrOccupation("piecePos", "" + (fromRowNo + 1) 
           + toColumn);
       if (tempPiece != null && tempPiece.contains("White")) {
-        System.out.println("Illegal Move. Please move your Pawn in accordance to the game's rules");
+        if (Board.board.map.valueLock == false) {
+          System.out.println("Illegal Move. Please move your Pawn in accordance to the "
+              + "game's rules");
+        }
       } else {
         if (Board.board.map.valueLock == false) {
-          System.out.println("Goes into Moved Pawns Case 1");
           movedPawns.add(selectedPiece);
         }
       
@@ -69,8 +68,6 @@ public class Pawn {
         || toRowNo == fromRowNo - 1) && fromColumn == toColumn)) {
       movingForward = true;
       
-      System.out.println("Case 2");
-      
       /*
        * Checking there isn't a piece of the player's directly in front of the Pawn intending to 
        * move. This check is applicable in the instance that the Pawn is moving 1 space and 2 spaces
@@ -79,10 +76,12 @@ public class Pawn {
       String tempPiece = Board.board.map.getPieceOrOccupation("piecePos", "" + (fromRowNo - 1)
           + toColumn);
       if (tempPiece != null && tempPiece.contains("Black")) {
-        System.out.println("Illegal Move. Please move your Pawn in accordance to the game's rules");
+        if (Board.board.map.valueLock == false) {
+          System.out.println("Illegal Move. Please move your Pawn in accordance to the "
+              + "game's rules");
+        }
       } else {
         if (Board.board.map.valueLock == false) {
-          System.out.println("Goes into Moved Pawns Case 2");
           movedPawns.add(selectedPiece);
         }
       
@@ -98,10 +97,7 @@ public class Pawn {
       movingForward = false;
       attackMove = true;
       
-      System.out.println("Case 3");
-      
       if (Board.board.map.valueLock == false) {
-        System.out.println("Goes into Moved Pawns Case 3");
         movedPawns.add(selectedPiece);
       }
       
@@ -117,36 +113,18 @@ public class Pawn {
       movingForward = false;
       attackMove = true;
       
-      System.out.println("Case 4");
-      
       if (Board.board.map.valueLock == false) {
-        System.out.println("Goes into Moved Pawns Case 4");
         movedPawns.add(selectedPiece);
       }
       
       setPos(player, selectedPiece, toTile);
-      
-    /*
-     * Else if to check if a White player's Pawn has reached the 8th row. If so,
-     * the Pawn can no longer move.
-     */
-    //} else if (player.equals("White") && (fromRowNo == 8)) {
-      //System.out.println("Illegal Move. Please move your piece in accordance to the game's rules");
-      
 
-    /*
-     * Else if to check if a Black player's Pawn has reached the 1st row. If so,
-     * the Pawn can no longer move.
-     */
-    //} else if (player.equals("Black") && (fromRowNo == 1)) {
-      //System.out.println("Illegal Move. Please move your piece in accordance to the game's rules");
       
     /* Else if statement for checking if the player wants to move the pawn forward 1 tile, assuming
      * its not the pawn's first move based on the previous if statement checking this */      
     } else if (player.equals("White") && (fromRowNo != 8) && toRowNo == fromRowNo + 1
         && fromColumn == toColumn) {
       movingForward = true;
-      System.out.println("Case 5");
       setPos(player, selectedPiece, toTile);
     
     /* Else if statement for checking if the Black player wants to move their pawn downwards 1 tile,
@@ -154,7 +132,6 @@ public class Pawn {
     } else if (player.equals("Black") && (fromRowNo != 1) && toRowNo == fromRowNo - 1
         && fromColumn == toColumn) {
       movingForward = true;
-      System.out.println("Case 6");
       
       setPos(player, selectedPiece, toTile);
       
@@ -169,7 +146,6 @@ public class Pawn {
       movingForward = false;
       attackMove = true;
       
-      System.out.println("Case 7");
       setPos(player, selectedPiece, toTile);
       
     } else if (player.equals("Black") && selectedPiece.contains("Black") && (toRowNo 
@@ -177,11 +153,13 @@ public class Pawn {
         && (fromRowNo != 1) && (toRowNo == fromRowNo - 1) && fromColumn == toColumn - 1) {
       movingForward = false;
       attackMove = true;
-      System.out.println("Case 8");
       setPos(player, selectedPiece, toTile);
      
     } else {
-      System.out.println("Illegal Move. Please move your piece in accordance to the game's rules");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Illegal Move. Please move your piece in accordance to the game's "
+            + "rules");
+      }
     } 
   }
   
@@ -198,7 +176,6 @@ public class Pawn {
     // If the destination tile is empty
     if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Empty" 
         && movingForward == true) {
-      System.out.println("Pawn lands in Empty Tile Occupation");
       passedValidation = true;
       
       Board.board.map.setValue("piecePos", toTile, selectedPiece);
@@ -218,12 +195,16 @@ public class Pawn {
     } else if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
          && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation("piecePos", toTile)) 
          == false) {
-      System.out.println("Illegal Move. You cannot move your Pawn on your own piece");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Illegal Move. You cannot move your Pawn on your own piece");
+      }
       movingForward = false;
       
     // Else, do not set the position of Pawn and display message.
     } else {
-      System.out.println("Invalid Move");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Invalid Move");
+      }
     }
   }
   

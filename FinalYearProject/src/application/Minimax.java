@@ -66,7 +66,7 @@ public class Minimax {
     
     String piece = "";
     piece = Board.board.map.getPieceOrOccupation("piecePos", toTile);
-  	
+
     // Find best move starting with most valuable piece to capture to the lowest
     if (piece != null && piece.contains("King")) {
       return toTile;
@@ -89,7 +89,7 @@ public class Minimax {
     } else if (piece == null || piece == "null") {
       return toTile;
     }
-  	
+
     return toTile;
   }
 }

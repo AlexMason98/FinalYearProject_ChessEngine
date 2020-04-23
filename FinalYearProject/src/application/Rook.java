@@ -2,7 +2,6 @@ package application;
 
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import java.util.ArrayList;
 
 /**
@@ -35,109 +34,123 @@ public class Rook {
       throws InvalidPieceException, InvalidPlayerException {
   
     if (toTile != Board.board.map.getTile(selectedRook)) {
-    String fromTile = Board.board.map.getTile(selectedRook);
-    System.out.println("From Tile Char At 0: " + fromTile);
-    int fromRow = Integer.parseInt(String.valueOf(fromTile.charAt(0)));
-    char fromColumn = fromTile.charAt(1);
-    int toRow = Integer.parseInt(String.valueOf(toTile.charAt(0)));
-    char toColumn = toTile.charAt(1);
+      String fromTile = Board.board.map.getTile(selectedRook);
+      int fromRow = Integer.parseInt(String.valueOf(fromTile.charAt(0)));
+      char fromColumn = fromTile.charAt(1);
+      int toRow = Integer.parseInt(String.valueOf(toTile.charAt(0)));
+      char toColumn = toTile.charAt(1);
     
-    /* MOVING LEFT. Where the row number remains the same, but the fromColumn is greater than the
-     * toColumn. For example, moving from 8H (where H in ASCII is 72) to 8A (where A in ASCII is 
-     * 65).
-     */
-    if (fromRow == toRow && fromColumn > toColumn) {
-      /* CHECKING FOR ANY PIECES IN ROOK'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
-      I search each tile to the left of the current one to see if it contains any pieces, until
-      reaching one tile before the Rook's destination tile */
-      System.out.println("----- Moving Left  -----");
-      for (int i = fromColumn - 1; i > toColumn; i--) {
-        // If a tile in the Rook's path is not null (occupied by a piece), move is invalid.
-        System.out.println("The tile is: " + toRow + String.valueOf((char)i));
-        
-        if (Board.board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf((char)i)) 
-            == "Occupied" && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation(
-            "piecePos", toRow + String.valueOf((char)i))) == false) {
-          System.out.println("Illegal Move. There is a piece in your Rook's movement path "
-              + "(Tile: " + toRow + String.valueOf((char)i) + ")");
-          pieceInPath++;
+      /* MOVING LEFT. Where the row number remains the same, but the fromColumn is greater than the
+       * toColumn. For example, moving from 8H (where H in ASCII is 72) to 8A (where A in ASCII is 
+       * 65).
+       */
+      if (fromRow == toRow && fromColumn > toColumn) {
+        /* CHECKING FOR ANY PIECES IN ROOK'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
+        I search each tile to the left of the current one to see if it contains any pieces, until
+        reaching one tile before the Rook's destination tile */
+
+        for (int i = fromColumn - 1; i > toColumn; i--) {
+         
+          // If a tile in the Rook's path is not null (occupied by a piece), move is invalid.
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf(
+              + (char)i)) == "Occupied" && piece.isOpponentPiece(player, 
+                  Board.board.map.getPieceOrOccupation("piecePos", toRow + String.valueOf(
+                      (char)i))) == false) {
+            if (!Board.board.map.valueLock) {
+              System.out.println("Illegal Move. There is a piece in your Rook's movement path "
+                  + "(Tile: " + toRow + String.valueOf((char)i) + ")");
+            }
+            pieceInPath++;
+          }
         }
-      }
-      setPos(player, selectedRook, toTile);
+        setPos(player, selectedRook, toTile);
       
-    /*
-     * MOVING RIGHT. Where the row number remains the same, but the toColumn number is greater than 
-     * thefromColumn number. For example, moving from 3B (where B in ASCII is 66) to 3E (where E in 
-     * ASCII is 69).
-     */
-    } else if (fromRow == toRow && toColumn > fromColumn) {
-      /* CHECKING FOR ANY PIECES IN THE ROOK'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
-      I search each tile to the right of the current tile to see if it contains any pieces (player 
-      or opponent), until reaching one tile before the Rook's destination tile */
-      System.out.println("----- Moving Right -----");
-      for (int i = fromColumn + 1; i < toColumn; i++) {
-        // If a tile in the Rook's path is not null (occupied by a piece, move is invalid.
-        System.out.println("The tile is: " + toRow + String.valueOf((char)i));
-        if (Board.board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf((char)i)) 
-            == "Occupied" && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation(
-            "piecePos", toRow + String.valueOf((char)i))) == false) {
-          System.out.println("Illegal Move. There is a piece in your Rook's movement path "
-              + "(Tile: " + toRow + String.valueOf((char)i) + ")");
-          pieceInPath++;
-        }
-      }
-      setPos(player, selectedRook, toTile);
-    /*
-     * MOVING UP. Where the column letter (as an ASCII value) remains the same, but the fromRow
-     * number is less than the toRow number. For example, moving from 1A (where 1 is the row) to
-     * 3A.
-     */
-    } else if (fromColumn == toColumn && (fromRow < toRow)) {
-      /* CHECKING FOR ANY PIECES IN THE ROOK'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
-      I search each tile above the current tile to see if it contains any pieces (player or 
-      opponent), until reaching one tile before the Rook's destination tile. */
-      System.out.println("----- Moving Up -----");
-      for (int i = fromRow + 1; i < toRow; i++) {
-        System.out.println("The tile is: " + i + fromColumn);
-        if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf(fromColumn)) 
-            == "Occupied" && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation(
-            "piecePos", i + String.valueOf(fromColumn))) == false) {
-          System.out.println("Illegal Move. There is a piece in your Rook's movement path "
-              + "(Tile: " + i + fromColumn + ")");
-          pieceInPath++;
-        }
-      }
-      setPos(player, selectedRook, toTile);
-    /*
-     * MOVING DOWN. Where the column letter (as an ASCII value) remains the same, but the fromRow
-     * number is greater than the toRow number. For example, moving from 8A (where 8 is the row) to
-     * 4A.
-     */
-    } else if (fromColumn == toColumn && (fromRow > toRow)) {
-      /* CHECKING FOR ANY PIECES IN THE ROOK'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
-      I search each tile below the current tile to see if it contains any pieces (player or 
-      opponent), until reaching one tile before the Rook's destination tile. */
-      System.out.println("----- Moving Down -----");
-      for (int i = fromRow - 1; i > toRow; i--) {
-        System.out.println("The tile is: " + i + fromColumn);
-        if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf(fromColumn)) 
-            == "Occupied" && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation(
-            "piecePos", i + String.valueOf(fromColumn))) == false) {
-          System.out.println("Illegal Move. There is a piece in your Rook's movement path "
-              + "(Tile: " + i + fromColumn + ")");
-          pieceInPath++;
-        }
+      /*
+       * MOVING RIGHT. Where the row number remains the same, but the toColumn number is greater
+       * than the fromColumn number. For example, moving from 3B (where B in ASCII is 66) to 3E
+       * (where E in ASCII is 69).
+       */
+      } else if (fromRow == toRow && toColumn > fromColumn) {
+        /* CHECKING FOR ANY PIECES IN THE ROOK'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
+        I search each tile to the right of the current tile to see if it contains any pieces
+        (player or opponent), until reaching one tile before the Rook's destination tile */
+
+        for (int i = fromColumn + 1; i < toColumn; i++) {
         
-      }
-      setPos(player, selectedRook, toTile);
+          // If a tile in the Rook's path is not null (occupied by a piece, move is invalid.
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf(
+              (char)i)) == "Occupied" && piece.isOpponentPiece(player, 
+                Board.board.map.getPieceOrOccupation("piecePos", toRow + String.valueOf(
+                    (char)i))) == false) {
+            if (!Board.board.map.valueLock) {
+              System.out.println("Illegal Move. There is a piece in your Rook's movement path "
+                  + "(Tile: " + toRow + String.valueOf((char)i) + ")");
+            }
+            pieceInPath++;
+          }
+        }
+        setPos(player, selectedRook, toTile);
+      /*
+       * MOVING UP. Where the column letter (as an ASCII value) remains the same, but the fromRow
+       * number is less than the toRow number. For example, moving from 1A (where 1 is the row) to
+       * 3A.
+       */
+      } else if (fromColumn == toColumn && (fromRow < toRow)) {
+        /* CHECKING FOR ANY PIECES IN THE ROOK'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
+        I search each tile above the current tile to see if it contains any pieces (player or 
+        opponent), until reaching one tile before the Rook's destination tile. */
+
+        for (int i = fromRow + 1; i < toRow; i++) {
+
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf(
+              fromColumn)) == "Occupied" && piece.isOpponentPiece(player, 
+                  Board.board.map.getPieceOrOccupation("piecePos", i + String.valueOf(
+                      fromColumn))) == false) {
+
+            if (!Board.board.map.valueLock) {
+              System.out.println("Illegal Move. There is a piece in your Rook's movement path "
+                  + "(Tile: " + i + fromColumn + ")");
+            }
+            pieceInPath++;
+          }
+        }
+        setPos(player, selectedRook, toTile);
+      /*
+       * MOVING DOWN. Where the column letter (as an ASCII value) remains the same, but the fromRow
+       * number is greater than the toRow number. For example, moving from 8A (where 8 is the row)
+       * to 4A.
+       */
+      } else if (fromColumn == toColumn && (fromRow > toRow)) {
+        /* CHECKING FOR ANY PIECES IN THE ROOK'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
+        I search each tile below the current tile to see if it contains any pieces (player or 
+        opponent), until reaching one tile before the Rook's destination tile. */
+
+        for (int i = fromRow - 1; i > toRow; i--) {
+
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i 
+              + String.valueOf(fromColumn)) == "Occupied" && piece.isOpponentPiece(player, 
+                  Board.board.map.getPieceOrOccupation("piecePos", i + String.valueOf(
+                      fromColumn))) == false) {
+            if (!Board.board.map.valueLock) {
+              System.out.println("Illegal Move. There is a piece in your Rook's movement path "
+                  + "(Tile: " + i + fromColumn + ")");
+            }
+            pieceInPath++;
+          }
+        
+        }
+        setPos(player, selectedRook, toTile);
     
-    /*
-     * If we do not have a horizontal or vertical move, the move must be an illegal move.
-     */
-    } else {
-      System.out.println("Illegal Move. Please move your piece in accordance to the game's rules");
+      /*
+       * If we do not have a horizontal or vertical move, the move must be an illegal move.
+       */
+      } else {
+        if (!Board.board.map.valueLock) {
+          System.out.println("Illegal Move. Please move your piece in accordance to the game's "
+              + "rules");
+        }
+      }
     }
-  }
   }
   
   /**
@@ -186,7 +199,6 @@ public class Rook {
         Board.board.map.getPieceOrOccupation("piecePos", toTile)) == false 
         && Board.board.map.getPieceOrOccupation("piecePos", toTile).contains("King")) {
       passedValidation = false;
-      // Potential Castling Move
     
     /* 
      * This 'else if' assumes the current player's piece is in the destination tile, as the tile is 
@@ -194,8 +206,10 @@ public class Rook {
      */
     } else if (piece.isOpponentPiece(player, selectedRook) == false 
         && Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied") {
-      System.out.println("Illegal Move. You cannot move your Rook to a tile containing your own "
-          + "piece");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Illegal Move. You cannot move your Rook to a tile containing your own "
+            + "piece");
+      }
     }
     
     pieceInPath = 0; // Reset counter to avoid potential conflicts later

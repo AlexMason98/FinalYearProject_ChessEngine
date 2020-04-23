@@ -9,17 +9,7 @@ public class TreeMaps {
   private TreeMap<String, String> tileOccupation = new TreeMap<String, String>();
   public ArrayList<String> capturedPieces = new ArrayList<String>();
   public boolean valueLock = false;
-  
-  /**
-   * This is a constructor for creating/initialising the TreeMaps I will need
-   * for storing my Chess game data.
-   */
-  /*public TreeMaps() {
-    piecePos = new TreeMap<String, String>();
-    tileOccupation = new TreeMap<String, String>();
-    capturedPieces = new ArrayList<String>();
-  }*/
-  
+
 
   /**
    * This method sets a new key and value in my TreeMap. It uses

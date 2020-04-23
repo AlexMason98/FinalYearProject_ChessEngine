@@ -2,7 +2,6 @@ package application;
 
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import java.util.Map;
 
 public class IllegalMove extends Piece {
@@ -22,11 +21,14 @@ public class IllegalMove extends Piece {
   public int blackPieceCount = 0;
 
   /**
-   * CALLED FROM THE KING VALIDATION METHODS.
-   * @param player .
-   * @param toTile .
-   * @return .
-   * @throws InvalidPieceException .
+   * Responsible for returning true or false if the selected move is illegal.
+   * This is now redundant to the LegalMoves class, which can both check legal and
+   * illegal moves in the same class.
+   * 
+   * @param player The current player ("White" or "Black").
+   * @param toTile The destination tile.
+   * @return true if illegal, false is legal.
+   * @throws InvalidPieceException If an invalid piece type is passed.
    */
   public boolean illegalMove(String player, String toTile)
       throws InvalidPieceException, InvalidPlayerException {

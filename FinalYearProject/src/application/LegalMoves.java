@@ -2,11 +2,8 @@ package application;
 
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class LegalMoves {
 
@@ -20,7 +17,7 @@ public class LegalMoves {
   public static ArrayList<String> blackReachKingTile;
   public static ArrayList<String> threatenPieceTiles;
   public static boolean stalemate = false;
-	
+
   /**
    * This method is responsible for adding all legal moves to an ArrayList.
    * The algorithm can then choose which of those moves to take based on values
@@ -45,7 +42,6 @@ public class LegalMoves {
     String oppPlayer = "";
     String toTile = "";
     String prevTile = "";
-    String oppPrevTile = "";
     Board.board.map.valueLock = true;
     
     if (player.equals("White")) {
@@ -64,7 +60,7 @@ public class LegalMoves {
         oppPlayerPieces.add(piece);
       }
     }
-	
+
     // Iterate Rows
     for (int i = 1; i <= 8; i++) {
       // Iterate Columns
@@ -104,7 +100,7 @@ public class LegalMoves {
               System.out.println("Moving " + piece + " to " + toTile);
               System.out.println("Rook's Prev Tile: " + Board.board.map.getTile(piece));
               Controller.rook.moveRook(player, piece, toTile);
-            	
+
               if (Controller.rook.passedValidation) {
                 if (reachKing(oppPlayer, kingPos) == false) {
                   legalMoves.add(toTile + ", " + piece); 
@@ -130,9 +126,8 @@ public class LegalMoves {
             
             } else if (piece.contains("Bishop")) {
               Controller.bishop.moveBishop(player, piece, toTile);
-            	
+
               if (Controller.bishop.passedValidation) {
-                String tempPiece = Board.board.map.getPieceOrOccupation("piecePos", toTile);
                 if (reachKing(oppPlayer, kingPos) == false) {
                   legalMoves.add(toTile + ", " + piece);
                 } else {
@@ -144,12 +139,12 @@ public class LegalMoves {
             
             } else if (piece.contains("Queen")) {
               Controller.queen.moveQueen(player, piece, toTile);
-            	
+
               if (Controller.queen.passedValidation) {
-              	
+
                 if (reachKing(oppPlayer, kingPos) == false) {
                   legalMoves.add(toTile + ", " + piece);
-                } else { 	
+                } else {
                   Controller.queen.passedValidation = false;
                   String tempPiece = Board.board.map.getPieceOrOccupation("piecePos", toTile);
                   if (tempPiece != null && tempPiece.contains(oppPlayer) && reachKing(oppPlayer, 
@@ -167,7 +162,7 @@ public class LegalMoves {
               Controller.king.moveKing(player, piece, toTile);
               
               if (Controller.king.passedValidation) {
-              	
+
                 // Checking the King is not put in danger after this move
                 System.out.println("Lands King Before Reach King");
                 prevTile = Board.board.map.getTile(piece);
@@ -203,7 +198,7 @@ public class LegalMoves {
     
     Board.board.map.valueLock = false;
     Board.board.map.printStatus();
-	
+
     
     if (legalMoves.size() == 0) {
       System.out.println("There are no legal moves for this player");
@@ -232,15 +227,6 @@ public class LegalMoves {
       }
     }
     
-    /*for (int i = 0; i < whiteReachKing.size(); i++) {
-      System.out.println("White can Reach Black King with piece: " + whiteReachKing.get(i) + ", at "
-          + "tile: " + whiteReachKingTile.get(i));
-    }
-    
-    for (int i = 0; i < blackReachKing.size(); i++) {
-      System.out.println("Black can reach White King with piece: " + blackReachKing.get(i) + ", at "
-          + "tile: " + blackReachKingTile.get(i));
-    }*/
     return legalMoves;
   }
   
@@ -254,8 +240,7 @@ public class LegalMoves {
    */
   public static boolean reachKing(String oppPlayer, String toTile) throws 
         InvalidPieceException, InvalidPlayerException {
-    int reachKingCount = 0;
-    
+
     for (int i = 0; i < oppPlayerPieces.size(); i++) {
       String piece = oppPlayerPieces.get(i);
       Board.board.map.valueLock = true;
@@ -315,16 +300,10 @@ public class LegalMoves {
           Controller.bishop.moveBishop(oppPlayer, piece, toTile);
         
           if (Controller.bishop.passedValidation) {
-            System.out.println("Lands Bishop Reach King");
-            System.out.println(oppPlayer + " is moving " + piece + " to " + toTile);
 
             if (oppPlayer.equals("White")) {
-              whiteReachKing.add(piece);
-              whiteReachKingTile.add(toTile);
               blockThreat("Black", piece, toTile);
             } else {
-              blackReachKing.add(piece);
-              blackReachKingTile.add(toTile);
               blockThreat("White", piece, toTile);
             }
 
@@ -338,16 +317,10 @@ public class LegalMoves {
           Controller.knight.moveKnight(oppPlayer, piece, toTile);
         
           if (Controller.knight.passedValidation) {
-            System.out.println("Lands Knight Reach King");
-            System.out.println(oppPlayer + " is moving " + piece + " to " + toTile);
 
             if (oppPlayer.equals("White")) {
-              whiteReachKing.add(piece);
-              whiteReachKingTile.add(piece);
               blockThreat("Black", piece, toTile);
             } else {
-              blackReachKing.add(piece);
-              blackReachKingTile.add(toTile);
               blockThreat("White", piece, toTile);
             }
 
@@ -355,22 +328,16 @@ public class LegalMoves {
           }
         
           Controller.knight.passedValidation = false;
-      	
+
         } else if (piece.contains("Queen")) {
           Controller.queen.passedValidation = false;
           Controller.queen.moveQueen(oppPlayer, piece, toTile);
         
           if (Controller.queen.passedValidation) {
-            System.out.println("Lands Queen Reach King");
-            System.out.println(oppPlayer + " is moving " + piece + " to " + toTile);
 
             if (oppPlayer.equals("White")) {
-              whiteReachKing.add(piece);
-              whiteReachKingTile.add(toTile);
               blockThreat("Black", piece, toTile);
             } else {
-              blackReachKing.add(piece);
-              blackReachKingTile.add(toTile);
               blockThreat("White", piece, toTile);
             }
 
@@ -384,8 +351,6 @@ public class LegalMoves {
           Controller.king.moveKing(oppPlayer, piece, toTile);
         
           if (Controller.king.passedValidation) {
-            System.out.println("Lands King Reach King");
-            System.out.println(oppPlayer + " is moving " + piece + " to " + toTile);
 
             if (oppPlayer.equals("White")) {
               whiteReachKing.add(piece);
@@ -415,14 +380,8 @@ public class LegalMoves {
    */
   public static void blockThreat(String player, String piece, String tile)
       throws InvalidPieceException, InvalidPlayerException {
-  	
+
     Board.board.map.valueLock = true;
-    String oppPlayer = "";
-    if (player.equals("White")) {
-      oppPlayer = "Black";
-    } else {
-      oppPlayer = "White";
-    }
     
     //threatenPieceTiles = new ArrayList<String>();
     String fromTile = Board.board.map.getTile(piece);
@@ -581,53 +540,53 @@ public class LegalMoves {
       throws InvalidPieceException, InvalidPlayerException {
     for (int i = 0; i < playerPieces.size(); i++) {
       if (playerPieces.get(i).contains("Pawn") && !legalMoves.contains(
-            "Pawn " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
+            Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
         Controller.pawn.passedValidation = false;
         Controller.pawn.attackMove = false;
         Controller.pawn.movePawn(player, playerPieces.get(i), Board.board.map.getTile(piece));
     
         if (Controller.pawn.passedValidation && Controller.pawn.attackMove) {
-          legalMoves.add("Pawn " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
+          legalMoves.add(Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
           Controller.pawn.attackMove = false;
           Controller.pawn.passedValidation = false;
         }
        
       } else if (playerPieces.get(i).contains("Rook") && !legalMoves.contains(
-            "Rook " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
+            Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
         Controller.rook.passedValidation = false;
         Controller.rook.moveRook(player, playerPieces.get(i), Board.board.map.getTile(piece));
     
         if (Controller.rook.passedValidation) {
-          legalMoves.add("Rook " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
+          legalMoves.add(Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
           Controller.rook.passedValidation = false;
         }
        
       } else if (playerPieces.get(i).contains("Knight") && !legalMoves.contains(
-            "Knight " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
+            Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
         Controller.knight.passedValidation = false;
         Controller.knight.moveKnight(player, playerPieces.get(i), Board.board.map.getTile(piece));
     
         if (Controller.knight.passedValidation) {
-          legalMoves.add("Knight " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
+          legalMoves.add(Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
           Controller.knight.passedValidation = false;
         }
        
       } else if (playerPieces.get(i).contains("Bishop") && !legalMoves.contains(
-          "Bishop " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
+          Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
         Controller.bishop.passedValidation = false;
         Controller.bishop.moveBishop(player, playerPieces.get(i), Board.board.map.getTile(piece));
         
         if (Controller.bishop.passedValidation) {
-          legalMoves.add("Bishop " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
+          legalMoves.add(Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
           Controller.bishop.passedValidation = false;
         }
       } else if (playerPieces.get(i).contains("Queen") && !legalMoves.contains(
-            "Queen " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
+          Board.board.map.getTile(piece) + ", " + playerPieces.get(i))) {
         Controller.queen.passedValidation = false;
         Controller.queen.moveQueen(player, playerPieces.get(i), Board.board.map.getTile(piece));
     
         if (Controller.queen.passedValidation) {
-          legalMoves.add("Queen " + Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
+          legalMoves.add(Board.board.map.getTile(piece) + ", " + playerPieces.get(i));
           Controller.queen.passedValidation = false;
         }
       }
@@ -642,7 +601,7 @@ public class LegalMoves {
    * @param list Takes a map of type String, ArrayList String.
    */
   public void printList(String list) {
-  	
+
     if (list.equals("legalMoves")) {
       if (legalMoves.size() == 0) {
         System.out.println("There are no legal moves for this player");

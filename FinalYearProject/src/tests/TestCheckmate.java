@@ -1,4 +1,5 @@
 package tests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -6,12 +7,12 @@ import application.Board;
 import application.Checkmate;
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TestCheckmate {
 
+  @SuppressWarnings("unused")
   private Checkmate checkmate;
   
   @BeforeEach
@@ -31,10 +32,10 @@ class TestCheckmate {
       Board.board.map.setValue("piecePos", "5E", "BlackPawn5");
       Board.board.map.setValue("piecePos", "3F", "WhitePawn6");
       Board.board.map.setValue("piecePos", "4G", "WhitePawn7");
-      checkmate.legalTilesWhite.clear();
-      checkmate.legalTilesBlack.clear();
+      Checkmate.legalTilesWhite.clear();
+      Checkmate.legalTilesBlack.clear();
       
-      assertEquals(checkmate.checkmate(), true);
+      assertEquals(Checkmate.checkmate(), true);
       Board.board.map.printStatus();
       
     } catch (InvalidPieceException e) {
@@ -53,10 +54,9 @@ class TestCheckmate {
    */
   @Test
   void test2() {
-  	
-    try {
-      
-      assertEquals(checkmate.checkmate(), false);
+
+    try {      
+      assertEquals(Checkmate.checkmate(), false);
       Board.board.map.printStatus();
       
     } catch (InvalidPieceException e) {
@@ -67,23 +67,4 @@ class TestCheckmate {
       e.printStackTrace();
     }
   }
-  
-  /*@Test
-  void test2() {
-    Board.board.map.setValue("piecePos", "4H", "BlackQueen");
-    Board.board.map.setValue("piecePos", "5E", "BlackPawn5");
-    Board.board.map.setValue("piecePos", "3F", "WhitePawn6");
-    Board.board.map.setValue("piecePos", "4G", "WhitePawn7");
-    
-    try {
-      assertEquals(checkmate.escapeCheck("White"), false);
-    } catch (InvalidPlayerException e) {
-      fail("Exception Thrown");
-      e.printStackTrace();
-    } catch (InvalidPieceException e) {
-      fail("Exception Thrown");
-      e.printStackTrace();
-    }
-  }*/
-
 }

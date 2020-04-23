@@ -1,4 +1,5 @@
 package tests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -6,7 +7,6 @@ import application.Board;
 import application.Rook;
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +28,7 @@ class TestRook {
     // WhiteRook2 is in 1H and is moving 3 tiles to the left to 1E.
     try {
       System.out.println("Test 1");
+      Board.board.map.printStatus();
       rook.moveRook("White", "WhiteRook2", "1E");
     } catch (InvalidPieceException e) {
       e.printStackTrace();
@@ -107,8 +108,8 @@ class TestRook {
       /* When moving up from WhiteRook1's starting position (1A) to 3A, it is blocked
       by WhitePawn1 in 2A. Therefore the method should prevent the move */
       rook.moveRook("White", "WhiteRook1", "3A");
+      Board.board.map.printStatus();
       assertEquals(Board.board.map.getPieceOrOccupation("piecePos", "3A"), null);
-      Board.board.map.setValue("piecePos", "1A", "WhiteRook1");
     } catch (InvalidPieceException e) {
       e.printStackTrace();
       fail("Exception Thrown");
@@ -133,6 +134,7 @@ class TestRook {
       rook.moveRook("White", "WhiteRook1", "3A");
       Board.board.map.printStatus();
       assertEquals(Board.board.map.getPieceOrOccupation("piecePos", "3A"), "WhiteRook1");
+      Board.board.map.setValue("piecePos", "2A", "WhitePawn1");
     } catch (InvalidPieceException e) {
       e.printStackTrace();
       fail("Exception Thrown");

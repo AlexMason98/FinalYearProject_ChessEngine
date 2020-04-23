@@ -1,4 +1,5 @@
 package tests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -6,7 +7,6 @@ import application.Board;
 import application.Knight;
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

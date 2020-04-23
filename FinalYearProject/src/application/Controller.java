@@ -2,12 +2,8 @@ package application;
 
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import java.util.ArrayList;
-
 import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -65,7 +61,8 @@ public class Controller {
    */
   
   @FXML
-  public void pieceClicked(MouseEvent event) throws InvalidPieceException, InvalidPlayerException {
+  public void pieceClicked(@SuppressWarnings("exports") MouseEvent event) 
+       throws InvalidPieceException, InvalidPlayerException {
     String id = event.getPickResult().getIntersectedNode().getId();
     
     if (id == null) {
@@ -338,7 +335,6 @@ public class Controller {
    * @throws InvalidPlayerException If the player in the piece ID is not White or Black.
    * @throws InvalidPieceException If the piece ID does not contain a valid piece type.
    */
-  @SuppressWarnings("static-access")
   public static void guiPieceToClass(String piece, String value) 
       throws InvalidPieceException, InvalidPlayerException {
   
@@ -547,7 +543,7 @@ public class Controller {
         }
         
       } else {
-      	
+
         if (LegalMoves.legalMoves.contains(toTile + ", " + piece)) {
           if (LegalMoves.stalemate) {
             System.out.println("Stalemate Detected");
@@ -576,7 +572,7 @@ public class Controller {
    * @param img Takes the piece as an ImageView object to set new X and Y positions.
    * @param tile Takes the tile to specify the X and Y positions the image should move to.
    */
-  public static void setImagePos(ImageView img, String tile) {
+  public static void setImagePos(@SuppressWarnings("exports") ImageView img, String tile) {
   
     if (tile.equals("8A")) {
       img.setLayoutX(0.25); 

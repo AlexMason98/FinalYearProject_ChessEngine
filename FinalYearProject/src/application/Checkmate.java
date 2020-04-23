@@ -2,7 +2,6 @@ package application;
 
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -24,10 +23,11 @@ public class Checkmate {
   public static ArrayList<String> legalTilesBlack = new ArrayList<String>();
  
   /**
-   * NA.
-   * @return .
-   * @throws InvalidPlayerException .
-   * @throws InvalidPieceException .
+   * This method is responsible for checking if the King is in checkmate.
+   * This is now unused as the LegalMoves class handles this instead.
+   * @return true if checkmate.
+   * @throws InvalidPlayerException If an invalid player is passed (not "White" or "Black").
+   * @throws InvalidPieceException If an invalid piece type is passed.
    */
   public static boolean checkmate() throws InvalidPieceException, InvalidPlayerException {
     
@@ -63,17 +63,17 @@ public class Checkmate {
               if (value.contains("Pawn")) {
                 pawn.movePawn(player, value, kingPos);
                   
-                if (pawn.passedValidation == true) {
+                if (pawn.passedValidation) {
                   checkmateAt.put(kingPos,  player + " has put " + oppPlayer + "King into "
                         + "Checkmate at tile " + kingPos + " by piece " + value);
                 }
                   
                 // Checking to see if King could escape check in this tile
                 pawn.movePawn(player, value, toTile);
-                if (pawn.passedValidation == true && king.passedValidation == true) {
+                if (pawn.passedValidation && king.passedValidation) {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);
                   pawn.passedValidation = false;
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   ignoreDuplicates("legalTiles" + oppPlayer, "Legal Tile " + toTile, toTile);
                 } else {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);
@@ -82,17 +82,17 @@ public class Checkmate {
               } else if (value.contains("Rook")) {
                 rook.moveRook(player, value, toTile);
                   
-                if (rook.passedValidation == true) {
+                if (rook.passedValidation) {
                   checkmateAt.put(kingPos,  player + " has put " + oppPlayer + "King into "
                         + "Checkmate at tile " + kingPos + " by piece " + value);
                 }
                   
                 // Checking to see if King could escape check in this tile
                 rook.moveRook(player, value, toTile);
-                if (rook.passedValidation == true && king.passedValidation == true) {
+                if (rook.passedValidation && king.passedValidation) {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);
                   rook.passedValidation = false;
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   ignoreDuplicates("legalTiles" + oppPlayer, "Legal Tile " + toTile, toTile);
                 } else {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);
@@ -101,17 +101,17 @@ public class Checkmate {
               } else if (value.contains("Knight")) {
                 knight.moveKnight(player, value, kingPos);
                   
-                if (knight.passedValidation == true) {
+                if (knight.passedValidation) {
                   checkmateAt.put(kingPos,  player + " has put " + oppPlayer + "King into "
                         + "Checkmate at tile " + kingPos + " by piece " + value);
                 }
                   
                 // Checking to see if King could escape check in this tile
                 knight.moveKnight(player, value, toTile);
-                if (knight.passedValidation == true && king.passedValidation == true) {
+                if (knight.passedValidation && king.passedValidation) {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);
                   knight.passedValidation = false;
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   ignoreDuplicates("legalTiles" + oppPlayer, "Legal Tile " + toTile, toTile);
                 } else {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);
@@ -120,17 +120,17 @@ public class Checkmate {
               } else if (value.contains("Bishop")) {
                 bishop.moveBishop(player, value, kingPos);
                   
-                if (bishop.passedValidation == true) {
+                if (bishop.passedValidation) {
                   checkmateAt.put(kingPos,  player + " has put " + oppPlayer + "King into "
                         + "Checkmate at tile " + kingPos + " by piece " + value);
                 }
                   
                 // Checking to see if King could escape check in this tile
                 bishop.moveBishop(player, value, toTile);
-                if (bishop.passedValidation == true && king.passedValidation == true) {
+                if (bishop.passedValidation && king.passedValidation) {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);
                   bishop.passedValidation = false;
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   ignoreDuplicates("legalTiles" + oppPlayer, "Legal Tile " + toTile, toTile);
                 } else {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);
@@ -140,7 +140,7 @@ public class Checkmate {
                 queen.moveQueen(player, value, kingPos);
                   
                 // Checking to see if King can be reached in its current position
-                if (queen.passedValidation == true) {
+                if (queen.passedValidation) {
                   checkmateAt.put(kingPos,  player + " has put " + oppPlayer + "King into "
                       + "Checkmate at tile " + kingPos + " by piece " + value);
                   queen.passedValidation = false;
@@ -148,10 +148,10 @@ public class Checkmate {
                   
                 // Checking to see if King could escape check in this tile
                 queen.moveQueen(player, value, toTile);
-                if (queen.passedValidation == true && king.passedValidation == true) {
+                if (queen.passedValidation && king.passedValidation) {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);
                   queen.passedValidation = false;
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   ignoreDuplicates("legalTiles" + oppPlayer, "Legal Tile " + toTile, toTile);
                 } else {
                   ignoreDuplicates("illegalTiles" + oppPlayer, "Illegal Tile " + toTile, toTile);

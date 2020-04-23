@@ -1,4 +1,5 @@
 package tests;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -6,17 +7,14 @@ import application.Board;
 import application.Stalemate;
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import org.junit.jupiter.api.BeforeEach;
-
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 
 
 
 class TestStalemate {
 
+  @SuppressWarnings("unused")
   private Stalemate stalemate;
   
   @BeforeEach
@@ -65,7 +63,7 @@ class TestStalemate {
       Board.board.map.setValue("piecePos", "2G", "null");
       Board.board.map.setValue("piecePos", "2H", "null");
       Board.board.map.printStatus();
-      assertEquals(stalemate.stalemate(), true);
+      assertEquals(Stalemate.stalemate(), true);
       Board.board.map.printStatus();
     } catch (InvalidPieceException e) {
       fail("Exception Thrown");
@@ -119,7 +117,7 @@ class TestStalemate {
       Board.board.map.setValue("piecePos", "2G", "null");
       Board.board.map.setValue("piecePos", "2H", "null");
       Board.board.map.printStatus();
-      assertEquals(stalemate.stalemate(), true);
+      assertEquals(Stalemate.stalemate(), true);
       System.out.println("PRINT STATUS");
       Board.board.map.printStatus();
       
@@ -161,7 +159,7 @@ class TestStalemate {
       Stalemate.pawn.movedPawns.add("BlackPawn3");
       Board.board.map.setValue("piecePos", "6F", "BlackPawn3");
       Board.board.map.setValue("piecePos", "6G", "BlackKing");
-      stalemate.rook.movedRooks.add("BlackRook2");
+      Stalemate.rook.movedRooks.add("BlackRook2");
       Board.board.map.setValue("piecePos", "6H", "BlackRook2");
       Stalemate.pawn.movedPawns.add("BlackPawn4");
       Board.board.map.setValue("piecePos", "5H", "BlackPawn4");
@@ -177,7 +175,7 @@ class TestStalemate {
       Board.board.map.setValue("piecePos", "2G", "WhitePawn8");
       Board.board.map.setValue("piecePos", "2H", "null");
       Board.board.map.printStatus();
-      assertEquals(stalemate.stalemate(), true);
+      assertEquals(Stalemate.stalemate(), true);
     } catch (InvalidPieceException e) {
       fail("Exception Thrown");
       e.printStackTrace();
@@ -200,7 +198,7 @@ class TestStalemate {
       
       //Board.board.map.setValue("piecePos", "");
       Stalemate.pawn.movedPawns.clear();
-      assertEquals(stalemate.stalemate(), false);
+      assertEquals(Stalemate.stalemate(), false);
       Board.board.map.printStatus();
       //stalemate.pawn.movedPawnLock = false;
       for (int i = 0; i < Stalemate.pawn.movedPawns.size(); i++) {

@@ -2,13 +2,11 @@ package application;
 
 import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Stalemate {
-  //private IllegalMove illegalMove = new IllegalMove();
   public static King king = new King();
   public static Queen queen = new Queen();
   public static Rook rook = new Rook();
@@ -25,8 +23,11 @@ public class Stalemate {
   static ArrayList<String> legalMoveAt = new ArrayList<String>();
   
   /**
-   * NA.
-   * @return .
+   * This method is responsible for checking if the player is in a stalemate or not.
+   * This method is now redundant to the legalMoves class which can also check for the
+   * stalemate condition.
+   * 
+   * @return true if stalemate, false is there isn't a stalemate.
    */
   public static boolean stalemate() throws InvalidPlayerException, InvalidPieceException {
     for (Map.Entry<String, String> entry : Board.board.map.piecePos.entrySet()) {
@@ -50,17 +51,13 @@ public class Stalemate {
     }
     
     Board.board.map.valueLock = false;
-    //System.out.println("WHITE KING MOVES = " + whiteKingMove);
     System.out.println("WHITE PIECES = " + whitePieceCount);
     System.out.println("WHITE LEGAL MOVES = " + whiteLegalMove);
     System.out.println("WHITE STALEMATE COUNT = " + whiteStalemate);
-    //System.out.println("WHITE KING LEGAL MOVES = " + whiteKingLegalMove);
-    //System.out.println("BLACK KING MOVES = " + blackKingMove);
     System.out.println("BLACK PIECES = " + blackPieceCount);
     System.out.println("BLACK LEGAL MOVES = " + blackLegalMove);
     System.out.println("BLACK STALEMATE COUNT = " + blackStalemate);
-    //Board.board.map.printStatus();
-    //for (int i = 0; i < stalemateAt.size(); i++) {
+
     for (Map.Entry<String, String> entry : stalemateAt.entrySet()) {
       System.out.println("Stalemate At: " + entry.getKey() + ", "
           + entry.getValue());
@@ -82,10 +79,10 @@ public class Stalemate {
   
   /**
    * Check if player is putting their piece in danger.
-   * @param piece .
-   * @param toTile .
-   * @throws InvalidPlayerException .
-   * @throws InvalidPieceException .
+   * @param piece Takes the piece to check if in danger.
+   * @param toTile Takes the destination tile.
+   * @throws InvalidPlayerException If the player is not "White" or "Black".
+   * @throws InvalidPieceException If the piece is not a valid piece type.
    */
   public static void move(String piece, String toTile) 
       throws InvalidPieceException, InvalidPlayerException {
@@ -107,14 +104,14 @@ public class Stalemate {
       pawn.movePawn(oppPlayer, piece, toTile);
       
       if (!oppPlayer.equals(player)) {
-        if (pawn.passedValidation == true && king.passedValidation == true) {
+        if (pawn.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", "PAWN 1" + piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("stalemateAt", player + "King" + ", " + toTile, player + "King", toTile);
           pawn.movedPawns.remove(piece);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           /*ignoreDuplicates(legalMoveAt, "PAWN 1 " + player + "King" + ", " + toTile, player + 
           "King");*/
-        } else if (pawn.passedValidation == true) {
+        } else if (pawn.passedValidation) {
           ignoreDuplicates("legalMoveAt", "PAWN 2" + piece + ", " + toTile, piece, toTile);
           pawn.movedPawns.remove(piece);
         }
@@ -123,13 +120,13 @@ public class Stalemate {
         king.moveKing(player, player + "King", toTile);
         pawn.movePawn(player, piece, toTile);
       
-        if (pawn.passedValidation == true && king.passedValidation == true) {
+        if (pawn.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", "PAWN 3" + piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("legalMoveAt", player + "King" + ", " + toTile, player + "King", toTile);
           pawn.movedPawns.remove(piece);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           //ignoreDuplicates(legalMoveAt, player + "King" + ", " + toTile, player + "King");
-        } else if (pawn.passedValidation == true) {
+        } else if (pawn.passedValidation) {
           ignoreDuplicates("legalMoveAt", "PAWN 4 " + piece + ", " + toTile, piece, toTile);
           pawn.movedPawns.remove(piece);
         }
@@ -145,13 +142,13 @@ public class Stalemate {
       king.moveKing(player, player + "King", toTile);
       
       if (!oppPlayer.equals(player)) {
-        if (rook.passedValidation == true && king.passedValidation == true) {
+        if (rook.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", "ROOK 1 " + piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("stalemateAt", player + "King" + ", " + toTile, player + "King", toTile);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           /*ignoreDuplicates(legalMoveAt, "ROOK 1 " + player + "King" + ", " + toTile, player + 
           "King");*/
-        } else if (rook.passedValidation == true) {
+        } else if (rook.passedValidation) {
           ignoreDuplicates("legalMoveAt", "ROOK 2 " + piece + ", " + toTile, piece, toTile);
         }
       
@@ -162,12 +159,12 @@ public class Stalemate {
         rook.moveRook(player, piece, toTile);
         king.moveKing(player, player + "King", toTile);
       
-        if (rook.passedValidation == true && king.passedValidation == true) {
+        if (rook.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", "ROOK 3 " + piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("legalMoveAt", player + "King" + ", " + toTile, player + "King", toTile);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           //ignoreDuplicates(legalMoveAt, player + "King" + ", " + toTile, player + "King");
-        } else if (rook.passedValidation == true) {
+        } else if (rook.passedValidation) {
           //ignoreDuplicates(legalMoveAt, piece + ", " + toTile, piece);
         }
       }
@@ -182,13 +179,13 @@ public class Stalemate {
       king.moveKing(player, player + "King", toTile);
       
       if (!oppPlayer.equals(player)) {
-        if (knight.passedValidation == true && king.passedValidation == true) {
+        if (knight.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("stalemateAt", player + "King" + ", " + toTile, player + "King", toTile);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           /*ignoreDuplicates(legalMoveAt, "KNIGHT 1 " + player + "King" + ", " + toTile, player + 
           "King");*/
-        } else if (knight.passedValidation == true) {
+        } else if (knight.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
         }
       
@@ -199,12 +196,12 @@ public class Stalemate {
         knight.moveKnight(player, piece, toTile);
         king.moveKing(player, player + "King", toTile);
       
-        if (knight.passedValidation == true && king.passedValidation == true) {
+        if (knight.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("legalMoveAt", player + "King" + ", " + toTile, player + "King", toTile);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           //ignoreDuplicates(legalMoveAt, player + "King" + ", " + toTile, player + "King");
-        } else if (knight.passedValidation == true) {
+        } else if (knight.passedValidation) {
           //ignoreDuplicates(legalMoveAt, piece + ", " + toTile, piece);
         }
       }
@@ -218,13 +215,13 @@ public class Stalemate {
       king.moveKing(player, player + "King", toTile);
       
       if (!oppPlayer.equals(player)) {
-        if (bishop.passedValidation == true && king.passedValidation == true) {
+        if (bishop.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("stalemateAt", player + "King" + ", " + toTile, player + "King", toTile);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           /*ignoreDuplicates(legalMoveAt, "bishop 1 " + player + "King" + ", " + toTile, player + 
           "King");*/
-        } else if (bishop.passedValidation == true) {
+        } else if (bishop.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
         }
       
@@ -235,12 +232,12 @@ public class Stalemate {
         bishop.moveBishop(player, piece, toTile);
         king.moveKing(player, player + "King", toTile);
       
-        if (bishop.passedValidation == true && king.passedValidation == true) {
+        if (bishop.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("legalMoveAt", player + "King" + ", " + toTile, player + "King", toTile);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           //ignoreDuplicates(legalMoveAt, player + "King" + ", " + toTile, player + "King");
-        } else if (bishop.passedValidation == true) {
+        } else if (bishop.passedValidation) {
           //ignoreDuplicates(legalMoveAt, piece + ", " + toTile, piece);
         }
       }
@@ -254,13 +251,13 @@ public class Stalemate {
       king.moveKing(player, player + "King", toTile);
       
       if (!oppPlayer.equals(player)) {
-        if (queen.passedValidation == true && king.passedValidation == true) {
+        if (queen.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("stalemateAt", player + "King" + ", " + toTile, player + "King", toTile);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           /*ignoreDuplicates(legalMoveAt, "QUEEN 1 " + player + "King" + ", " + toTile, player + 
           "King");*/
-        } else if (queen.passedValidation == true) {
+        } else if (queen.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
         }
       
@@ -271,12 +268,12 @@ public class Stalemate {
         queen.moveQueen(player, piece, toTile);
         king.moveKing(player, player + "King", toTile);
       
-        if (queen.passedValidation == true && king.passedValidation == true) {
+        if (queen.passedValidation && king.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
           ignoreDuplicates("legalMoveAt", player + "King" + ", " + toTile, player + "King", toTile);
-        } else if (king.passedValidation == true) {
+        } else if (king.passedValidation) {
           //ignoreDuplicates(legalMoveAt, player + "King" + ", " + toTile, player + "King");
-        } else if (queen.passedValidation == true) {
+        } else if (queen.passedValidation) {
           ignoreDuplicates("legalMoveAt", piece + ", " + toTile, piece, toTile);
         }
       }
@@ -286,10 +283,10 @@ public class Stalemate {
     } else if (piece.contains("King")) {
       king.moveKing(oppPlayer, piece, toTile);
       
-      if (king.passedValidation == true) {
+      if (king.passedValidation) {
         king.passedValidation = false;
         king.moveKing(player, player + "King", toTile);
-        if (king.passedValidation == true) {
+        if (king.passedValidation) {
           king.passedValidation = false;
           
           ignoreDuplicates("stalemateAt", piece + ", " + toTile, piece, toTile);
@@ -307,12 +304,12 @@ public class Stalemate {
                 pawn.movePawn(oppPlayer, value, toTile);
                 king.moveKing(oppPlayer, piece, toTile);
                           
-                if (pawn.passedValidation == true && king.passedValidation == true) {
+                if (pawn.passedValidation && king.passedValidation) {
                   ignoreDuplicates("legalMoveAt", "ELSE 1 " + value + ", " + toTile, value, toTile);
                   ignoreDuplicates("legalMoveAt", "ELSE 2 " + piece + ", " + toTile, piece, toTile);
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   //ignoreDuplicates(legalMoveAt, "ELSE 3 " + piece + ", " + toTile, piece);
-                } else if (pawn.passedValidation == true) {
+                } else if (pawn.passedValidation) {
                   ignoreDuplicates("legalMoveAt", "ELSE 4 " + value + ", " + toTile, value, toTile);
                 }
               } else {
@@ -324,14 +321,14 @@ public class Stalemate {
                     || oppPlayer.equals("Black") && !oppPlayer.equals("Black") 
                     || player.equals("White") && !player.equals("White") || player.equals("Black") 
                     && !player.equals("Black")) {
-                  if (pawn.passedValidation == true && king.passedValidation == true) {
+                  if (pawn.passedValidation && king.passedValidation) {
                     ignoreDuplicates("stalemateAt", "ELSE 5" + piece + ", " + toTile, piece, 
                         toTile);
                     ignoreDuplicates("legalMoveAt", "ELSE 6" + value + ", " + toTile, value, 
                         toTile);
-                  } else if (king.passedValidation == true) {
+                  } else if (king.passedValidation) {
                     //ignoreDuplicates(legalMoveAt, "ELSE 7 " + piece + ", " + toTile, piece);
-                  } else if (pawn.passedValidation == true) {
+                  } else if (pawn.passedValidation) {
                     ignoreDuplicates("legalMoveAt", "ELSE 8 " + value + ", " + toTile, value, 
                         toTile);
                   }
@@ -352,12 +349,12 @@ public class Stalemate {
                 rook.moveRook(oppPlayer, value, toTile);
                 king.moveKing(oppPlayer, piece, toTile);
               
-                if (rook.passedValidation == true && king.passedValidation == true) {
+                if (rook.passedValidation && king.passedValidation) {
                   //ignoreDuplicates(legalMoveAt, "ELSE 4 " + value + ", " + toTile, value);
                   ignoreDuplicates("legalMoveAt", "ELSE 9 " + piece + ", " + toTile, piece, toTile);
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   //ignoreDuplicates(legalMoveAt, "ELSE 10 " + piece + ", " + toTile, piece);
-                } else if (rook.passedValidation == true) {
+                } else if (rook.passedValidation) {
                   ignoreDuplicates("legalMoveAt", "ELSE 11 " + value + ", " + toTile, value, 
                       toTile);
                 }
@@ -370,14 +367,14 @@ public class Stalemate {
                     || oppPlayer.equals("Black") && !oppPlayer.equals("Black") 
                     || player.equals("White") && !player.equals("White") || player.equals("Black") 
                     && !player.equals("Black")) {
-                  if (rook.passedValidation == true && king.passedValidation == true) {
+                  if (rook.passedValidation && king.passedValidation) {
                     ignoreDuplicates("stalemateAt", "ELSE 12" + piece + ", " + toTile, piece, 
                         toTile);
                     ignoreDuplicates("legalMoveAt", "ELSE 13" + value + ", " + toTile, value, 
                         toTile);
-                  } else if (king.passedValidation == true) {
+                  } else if (king.passedValidation) {
                     //ignoreDuplicates(legalMoveAt, "ELSE 14 " + piece + ", " + toTile, piece);
-                  } else if (rook.passedValidation == true) {
+                  } else if (rook.passedValidation) {
                     ignoreDuplicates("legalMoveAt", "ELSE 3 " + value + ", " + toTile, value, 
                         toTile);
                   }
@@ -398,13 +395,13 @@ public class Stalemate {
                 knight.moveKnight(oppPlayer, value, toTile);
                 king.moveKing(oppPlayer, piece, toTile);
               
-                if (knight.passedValidation == true && king.passedValidation == true) {
+                if (knight.passedValidation && king.passedValidation) {
                   //ignoreDuplicates(legalMoveAt, "ELSE 4 " + value + ", " + toTile, value);
                   ignoreDuplicates("legalMoveAt", "ELSE 15 " + piece + ", " + toTile, piece, 
                       toTile);
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   //ignoreDuplicates(legalMoveAt, "ELSE 16 " + piece + ", " + toTile, piece);
-                } else if (knight.passedValidation == true) {
+                } else if (knight.passedValidation) {
                   ignoreDuplicates("legalMoveAt", "ELSE 17 " + value + ", " + toTile, value, 
                       toTile);
                 }
@@ -417,14 +414,14 @@ public class Stalemate {
                     || oppPlayer.equals("Black") && !oppPlayer.equals("Black") 
                     || player.equals("White") && !player.equals("White") || player.equals("Black") 
                     && !player.equals("Black")) {
-                  if (knight.passedValidation == true && king.passedValidation == true) {
+                  if (knight.passedValidation && king.passedValidation) {
                     ignoreDuplicates("stalemateAt", "ELSE 18" + piece + ", " + toTile, piece, 
                         toTile);
                     ignoreDuplicates("legalMoveAt", "ELSE 19" + value + ", " + toTile, value, 
                         toTile);
-                  } else if (king.passedValidation == true) {
+                  } else if (king.passedValidation) {
                     //ignoreDuplicates(legalMoveAt, "ELSE 20 " + piece + ", " + toTile, piece);
-                  } else if (knight.passedValidation == true) {
+                  } else if (knight.passedValidation) {
                     ignoreDuplicates("legalMoveAt", "ELSE 21 " + value + ", " + toTile, value, 
                         toTile);
                   }
@@ -445,13 +442,13 @@ public class Stalemate {
                 bishop.moveBishop(oppPlayer, value, toTile);
                 king.moveKing(oppPlayer, piece, toTile);
               
-                if (bishop.passedValidation == true && king.passedValidation == true) {
+                if (bishop.passedValidation && king.passedValidation) {
                   //ignoreDuplicates(legalMoveAt, "ELSE 4 " + value + ", " + toTile, value);
                   ignoreDuplicates("legalMoveAt", "ELSE 22 " + value + ", " + toTile, value, 
                       toTile);
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   //ignoreDuplicates(legalMoveAt, "ELSE 23 " + piece + ", " + toTile, piece);
-                } else if (bishop.passedValidation == true) {
+                } else if (bishop.passedValidation) {
                   ignoreDuplicates("legalMoveAt", "ELSE 24 " + value + ", " + toTile, value, 
                       toTile);
                 }
@@ -464,15 +461,15 @@ public class Stalemate {
                     || oppPlayer.equals("Black") && !oppPlayer.equals("Black") 
                     || player.equals("White") && !player.equals("White") || player.equals("Black") 
                     && !player.equals("Black")) {
-                  if (bishop.passedValidation == true && king.passedValidation == true) {
+                  if (bishop.passedValidation && king.passedValidation) {
                     ignoreDuplicates("stalemateAt", "ELSE 25" + piece + ", " + toTile, piece, 
                         toTile);
                     ignoreDuplicates("legalMoveAt", "ELSE 26" + value + ", " + toTile, value, 
                         toTile);
-                  } else if (king.passedValidation == true) {
+                  } else if (king.passedValidation) {
                     ignoreDuplicates("legalMoveAt", "ELSE 27 " + piece + ", " + toTile, piece, 
                         toTile);
-                  } else if (bishop.passedValidation == true) {
+                  } else if (bishop.passedValidation) {
                     ignoreDuplicates("legalMoveAt", "ELSE 28 " + value + ", " + toTile, value, 
                         toTile);
                   }
@@ -495,13 +492,13 @@ public class Stalemate {
                 queen.moveQueen(oppPlayer, value, toTile);
                 king.moveKing(oppPlayer, piece, toTile);
               
-                if (queen.passedValidation == true && king.passedValidation == true) {
+                if (queen.passedValidation && king.passedValidation) {
                   //ignoreDuplicates(legalMoveAt, "ELSE 4 " + value + ", " + toTile, value);
                   ignoreDuplicates("legalMoveAt", "ELSE 29 " + value + ", " + toTile, value, 
                       toTile);
-                } else if (king.passedValidation == true) {
+                } else if (king.passedValidation) {
                   //ignoreDuplicates(legalMoveAt, "ELSE 30 " + piece + ", " + toTile, piece);
-                } else if (queen.passedValidation == true) {
+                } else if (queen.passedValidation) {
                   ignoreDuplicates("legalMoveAt", "ELSE 31 " + value + ", " + toTile, value, 
                       toTile);
                 }
@@ -515,14 +512,14 @@ public class Stalemate {
                     || player.equals("White") 
                     && !player.equals("White") || player.equals("Black") 
                     && !player.equals("Black")) {
-                  if (queen.passedValidation == true && king.passedValidation == true) {
+                  if (queen.passedValidation && king.passedValidation) {
                     ignoreDuplicates("stalemateAt", "ELSE 32" + piece + ", " + toTile, piece, 
                         toTile);
                     ignoreDuplicates("legalMoveAt", "ELSE 33" + value + ", " + toTile, value, 
                         toTile);
-                  } else if (king.passedValidation == true) {
+                  } else if (king.passedValidation) {
                     //ignoreDuplicates(legalMoveAt, "ELSE 34 " + piece + ", " + toTile, piece);
-                  } else if (queen.passedValidation == true) {
+                  } else if (queen.passedValidation) {
                     ignoreDuplicates("legalMoveAt", "ELSE 35 " + value + ", " + toTile, value, 
                         toTile);
                   }
