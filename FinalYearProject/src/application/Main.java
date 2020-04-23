@@ -20,7 +20,7 @@ public class Main extends Application {
     Pane pane = loader.load();
     
     scene = new Scene(pane);
-    stage.setTitle("Chess - By Alex Mason - Alpha v1.0");
+    stage.setTitle("Chess - By Alex Mason");
     stage.setScene(scene);
     stage.show();
     

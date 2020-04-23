@@ -817,8 +817,8 @@ public class Controller {
     return convertToID;
   }
   
-  public static void main(String[] args) throws InvalidPlayerException, InvalidPieceException {
+  /*public static void main(String[] args) throws InvalidPlayerException, InvalidPieceException {
     new Controller();
     
-  }
+  }*/
 }
