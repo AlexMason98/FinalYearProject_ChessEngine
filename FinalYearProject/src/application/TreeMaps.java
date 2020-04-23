@@ -39,7 +39,7 @@ public class TreeMaps {
       tileOccupation.put(key, value);
   
     } else if (valueLock == true) {
-      System.out.println("Checking for Checkmate");
+      ; // Ignore
     } else {
       System.out.println("Not a valid TreeMap (TreeMap.setValue)");
     }

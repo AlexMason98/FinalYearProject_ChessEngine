@@ -64,35 +64,36 @@ public class Controller {
   public void pieceClicked(@SuppressWarnings("exports") MouseEvent event) 
        throws InvalidPieceException, InvalidPlayerException {
     String id = event.getPickResult().getIntersectedNode().getId();
+    //System.out.print("Selected ");
     
     if (id == null) {
-
-      System.out.println("LANDS LINE 91");
       String tile = findTile(event.getX(), event.getY());
       String piece = Board.board.map.getPieceOrOccupation("piecePos", tile);
       
       if (piece == null || piece.equals("null")) {
-        System.out.println("Lands Line 80");
-        System.out.println(tile);
         movementPath.add(tile);
+        //System.out.print(tile);
         
         if (movementPath.size() == 2) {
+          System.out.println("to move to " + tile);
           validate(movementPath);
         }
       } else if (!piece.equals("null")) {
-        System.out.println("LANDS LINE 95, PIECE IS: " + piece);
         movementPath.add(piece);
           
         if (movementPath.size() == 2) {
+          System.out.print("to capture " + piece);
           validate(movementPath);
+        } else {
+          System.out.println("--------------------------------------------------");
+          System.out.print("Selected " + piece + ", ");
         }
       } else {
-        System.out.println("Lands in Line 89");
         movementPath.add(tile);
       }
 
     } else if (id.contains("white") || id.contains("black")) {
-      System.out.println("Piece is: " + id);
+      //System.out.print(idToUpper(id) + ", ");
       
       /* This checks to see if the player is trying to de-select a piece.
        * It is assumed that if a player clicks the same piece again that they are trying to
@@ -105,12 +106,16 @@ public class Controller {
         movementPath.add(idToUpper(id));
         
         if (movementPath.size() == 2) {
+          System.out.print("to capture " + idToUpper(id));
           validate(movementPath);
+        } else {
+          System.out.println("--------------------------------------------------");
+          System.out.print("Selected " + idToUpper(id) + ", ");
         }
       }
     }
     
-    System.out.println("ID: " + id);
+    //System.out.println("ID: " + id);
     
   }
   
@@ -271,25 +276,25 @@ public class Controller {
       String idOrTile2 = path.get(1);
       // Checks for White player piece moving to Black player piece
       if (idOrTile1.contains("White") && idOrTile2.contains("Black")) {
-        System.out.println("Detected White player move to Black player piece");
+        //System.out.println("Detected White player move to Black player piece");
         Controller.guiPieceToClass(idOrTile1, idOrTile2);
         movementPath.clear();
         
       // Checks for Black player piece moving to White player piece
       } else if (idOrTile1.contains("Black") && idOrTile2.contains("White")) {
-        System.out.println("Detected Black player move to White player piece");
+        //System.out.println("Detected Black player move to White player piece");
         Controller.guiPieceToClass(idOrTile1, idOrTile2);
         movementPath.clear();
       
       // Checks for White player move to another tile
       } else if (idOrTile1.contains("White") && idOrTile2.length() == 2) {
-        System.out.println("Detected White player move to another tile");
+        //System.out.println("Detected White player move to another tile");
         Controller.guiPieceToClass(idOrTile1, idOrTile2);
         movementPath.clear();
       
       // Checks for Black player move to another tile
       } else if (idOrTile1.contains("Black") && idOrTile2.length() == 2) {
-        System.out.println("Detected Black player move to another tile");
+        //System.out.println("Detected Black player move to another tile");
         Controller.guiPieceToClass(idOrTile1, idOrTile2);
         movementPath.clear();
       
@@ -374,9 +379,9 @@ public class Controller {
         
         if (LegalMoves.legalMoves.contains(value + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected " + player + " Wins!");
           } else {
             pawn.movePawn(player, piece, value);
             setImagePos(img, value);
@@ -389,9 +394,9 @@ public class Controller {
         
         if (LegalMoves.legalMoves.contains(toTile + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             pawn.movePawn(player, piece, toTile);
             setImagePos(img, toTile);
@@ -406,9 +411,9 @@ public class Controller {
          
         if (LegalMoves.legalMoves.contains(value + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             rook.moveRook(player, piece, value);
             setImagePos(img, value);
@@ -420,9 +425,9 @@ public class Controller {
         
         if (LegalMoves.legalMoves.contains(toTile + ", " + piece)) {
           if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else {
             rook.moveRook(player, piece, toTile);
             setImagePos(img, toTile);
@@ -437,9 +442,9 @@ public class Controller {
         
         if (LegalMoves.legalMoves.contains(value + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             knight.moveKnight(player, piece, value);
             setImagePos(img, value);
@@ -451,9 +456,9 @@ public class Controller {
         
         if (LegalMoves.legalMoves.contains(toTile + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             knight.moveKnight(player, piece, toTile);
             setImagePos(img, toTile);
@@ -468,9 +473,9 @@ public class Controller {
         
         if (LegalMoves.legalMoves.contains(value + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             bishop.moveBishop(player, piece, value);
             setImagePos(img, value);
@@ -482,9 +487,9 @@ public class Controller {
       
         if (LegalMoves.legalMoves.contains(toTile + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             bishop.moveBishop(player, piece, toTile);
             setImagePos(img, toTile);
@@ -499,9 +504,9 @@ public class Controller {
         
         if (LegalMoves.legalMoves.contains(value + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             queen.moveQueen(player, piece, value);
             setImagePos(img, value);
@@ -513,9 +518,9 @@ public class Controller {
         
         if (LegalMoves.legalMoves.contains(toTile + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             queen.moveQueen(player, piece, toTile);
             setImagePos(img, toTile);
@@ -530,9 +535,9 @@ public class Controller {
       
         if (LegalMoves.legalMoves.contains(value + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             king.moveKing(player, piece, value);
             setImagePos(img, value);
@@ -540,15 +545,16 @@ public class Controller {
           }
         } else {
           System.out.println("You cannot put your King in danger at tile " + value);
+          System.out.println("");
         }
         
       } else {
 
         if (LegalMoves.legalMoves.contains(toTile + ", " + piece)) {
           if (LegalMoves.stalemate) {
-            System.out.println("Stalemate Detected");
+            System.out.println("Stalemate Detected. It's a Draw!");
           } else if (toTile.equals(kingPos)) {
-            System.out.println("Checkmate Detected");
+            System.out.println("Checkmate Detected. " + player + " Wins!");
           } else {
             king.moveKing(player, piece, toTile);
             setImagePos(img, toTile);
@@ -561,8 +567,8 @@ public class Controller {
       }
        
     }
-    LegalMoves.legalMoves(player);
-    System.out.println("After Move");
+    //LegalMoves.legalMoves(player);
+    //System.out.println("After Move");
   }
   
   
@@ -807,7 +813,7 @@ public class Controller {
       convertToID += id.charAt(i);
     }
     
-    System.out.println("Convert to ID is: " + convertToID);
+    //System.out.println("Convert to ID is: " + convertToID);
     return convertToID;
   }
   

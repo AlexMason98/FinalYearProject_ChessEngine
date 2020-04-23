@@ -62,7 +62,9 @@ public class King {
       setPos(player, selectedPiece, toTile);
     
     } else {
-      System.out.println("Illegal Move. Please move your King in accordance to the game's rules");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Illegal Move. Please move your King in accordance to the game's rules");
+      }
       passedValidation = false;
     }
   }
@@ -96,11 +98,15 @@ public class King {
     } else if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
          && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation("piecePos", toTile)) 
          == false) {
-      System.out.println("Illegal Move. You cannot move your King on your own piece");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Illegal Move. You cannot move your King on your own piece");
+      }
       
     // Else, do not set the position of King and display message.
     } else {
-      System.out.println("Invalid Move");
+      if (!Board.board.map.valueLock) {
+        System.out.println("Invalid Move");
+      }
     }
   }
   

@@ -169,7 +169,6 @@ public class Rook {
    */
   public void setPos(String player, String selectedRook, String toTile) throws 
       InvalidPieceException, InvalidPlayerException {
-    System.out.println("Lands in setPos");
     /*
      * This 'if' statement is checking there are zero pieces in the Rook's movement path,
      * and the destination tile is empty, so that the Rook can move there.

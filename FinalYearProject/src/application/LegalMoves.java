@@ -68,13 +68,13 @@ public class LegalMoves {
         for (int k = 0; k < playerPieces.size(); k++) {
           String piece = playerPieces.get(k);
           String kingPos = Board.board.map.getTile(player + "King");
-          System.out.println("---- Value is: " + piece + " ----");
+          //System.out.println("---- Value is: " + piece + " ----");
           toTile = "" + i + (char)j;
 
           if (piece.contains(player) && (toTile != Board.board.map.getTile(piece))) {
             if (piece.contains("Pawn")) {
-              System.out.println("Player is " + player + ", piece is: " + piece + " to tile is: " 
-                  + toTile);
+              /*System.out.println("Player is " + player + ", piece is: " + piece + " to tile is: " 
+                  + toTile);*/
               Board.board.map.valueLock = true;
              
               Controller.pawn.movePawn(player, piece, toTile);
@@ -82,7 +82,7 @@ public class LegalMoves {
               if (Controller.pawn.passedValidation) {
                 
                 if (reachKing(oppPlayer, kingPos) == false) {
-                  System.out.println("Lands Pawn After Reach King");
+                  //System.out.println("Lands Pawn After Reach King");
                   /* If false to reaching king, add pawn move as legal as it doesn't
                      put own player's king in danger */
                   legalMoves.add(toTile + ", " + piece);
@@ -97,8 +97,8 @@ public class LegalMoves {
               Controller.pawn.attackMove = false;
               
             } else if (piece.contains("Rook")) {
-              System.out.println("Moving " + piece + " to " + toTile);
-              System.out.println("Rook's Prev Tile: " + Board.board.map.getTile(piece));
+              //System.out.println("Moving " + piece + " to " + toTile);
+              //System.out.println("Rook's Prev Tile: " + Board.board.map.getTile(piece));
               Controller.rook.moveRook(player, piece, toTile);
 
               if (Controller.rook.passedValidation) {
@@ -164,7 +164,7 @@ public class LegalMoves {
               if (Controller.king.passedValidation) {
 
                 // Checking the King is not put in danger after this move
-                System.out.println("Lands King Before Reach King");
+                //System.out.println("Lands King Before Reach King");
                 prevTile = Board.board.map.getTile(piece);
                 
                 String tempPiece = Board.board.map.getPieceOrOccupation("piecePos", toTile);
@@ -197,22 +197,25 @@ public class LegalMoves {
     }
     
     Board.board.map.valueLock = false;
-    Board.board.map.printStatus();
+    //Board.board.map.printStatus();
 
-    
+    System.out.println("");
+    System.out.println("Checking for an Illegal Move...");
+   
     if (legalMoves.size() == 0) {
       System.out.println("There are no legal moves for this player");
       stalemate = true;
-    } else {
+      /*} else {
       for (int i = 0; i < legalMoves.size(); i++) {
         System.out.println(legalMoves.get(i));
       }
       
       for (int a = 0; a < Controller.pawn.movedPawns.size(); a++) {
         System.out.println("Moved Pawn: " + Controller.pawn.movedPawns.get(a));
-      }
+      }*/
     }
     
+     
     if (illegalMoves.size() == 0) {
       System.out.println("There are no illegal moves for this player");
     } else {
@@ -221,11 +224,12 @@ public class LegalMoves {
       }
     }
     
-    if (threatenPieceTiles.size() != 0) {
+    /*if (threatenPieceTiles.size() != 0) {
       for (int i = 0; i < threatenPieceTiles.size(); i++) {
         System.out.println("Threatening Piece Tile: " + threatenPieceTiles.get(i));
       }
-    }
+    }*/
+    System.out.println("");
     
     return legalMoves;
   }
@@ -248,13 +252,13 @@ public class LegalMoves {
       if (piece.contains(oppPlayer)) {
         if (piece.contains("Pawn")) {
           Controller.pawn.passedValidation = false;
-          System.out.println("Opp Player is: " + oppPlayer + ", piece is: " + piece 
-              + ", to tile is: " + toTile);
+          /*System.out.println("Opp Player is: " + oppPlayer + ", piece is: " + piece 
+              + ", to tile is: " + toTile);*/
           Controller.pawn.movePawn(oppPlayer, piece, toTile);
         
           if (Controller.pawn.passedValidation && Controller.pawn.attackMove) {
-            System.out.println("Lands Pawn Reach King");
-            System.out.println(oppPlayer + " is moving " + piece + " to " + toTile);
+            //System.out.println("Lands Pawn Reach King");
+            //System.out.println(oppPlayer + " is moving " + piece + " to " + toTile);
 
             if (oppPlayer.equals("White")) {
               whiteReachKing.add(piece);
@@ -277,8 +281,8 @@ public class LegalMoves {
           Controller.rook.moveRook(oppPlayer, piece, toTile);
         
           if (Controller.rook.passedValidation) {
-            System.out.println("Lands Rook Reach King");
-            System.out.println(oppPlayer + " is moving " + piece + " to " + toTile);
+            //System.out.println("Lands Rook Reach King");
+            //System.out.println(oppPlayer + " is moving " + piece + " to " + toTile);
 
             if (oppPlayer.equals("White")) {
               whiteReachKing.add(piece);
