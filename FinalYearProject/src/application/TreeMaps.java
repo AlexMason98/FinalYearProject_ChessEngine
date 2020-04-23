@@ -5,19 +5,20 @@ import java.util.TreeMap;
 
 public class TreeMaps {
 
-  private TreeMap<String, String> piecePos;
-  private TreeMap<String, String> tileOccupation;
-  public ArrayList<String> capturedPieces;
+  public TreeMap<String, String> piecePos = new TreeMap<String, String>();
+  private TreeMap<String, String> tileOccupation = new TreeMap<String, String>();
+  public ArrayList<String> capturedPieces = new ArrayList<String>();
+  public boolean valueLock = false;
   
   /**
    * This is a constructor for creating/initialising the TreeMaps I will need
    * for storing my Chess game data.
    */
-  public TreeMaps() {
+  /*public TreeMaps() {
     piecePos = new TreeMap<String, String>();
     tileOccupation = new TreeMap<String, String>();
     capturedPieces = new ArrayList<String>();
-  }
+  }*/
   
 
   /**
@@ -28,24 +29,27 @@ public class TreeMaps {
    * @param value the value associated with my key
    */
   public void setValue(String map, String key, String value) {
-    if (map == "piecePos" && value != "null") {  
+    if (map == "piecePos" && value != "null" && valueLock == false) {  
       String oldPos = getTile(value);
       
       piecePos.put(key, value);
       tileOccupation.put(key, "Occupied");
       
+      // If the old position of the piece previously contained a value:
       if (oldPos != null) {
-        piecePos.replace(oldPos, null);
+        piecePos.replace(oldPos, "null");
         tileOccupation.replace(oldPos, "Empty");
       }
   
-    } else if (map == "piecePos" && value == "null") {
+    } else if (map == "piecePos" && value == "null" && valueLock == false) {
       piecePos.put(key, value);
       tileOccupation.put(key, "Empty");
      
     } else if (map == "tileOccupation") {
       tileOccupation.put(key, value);
   
+    } else if (valueLock == true) {
+      System.out.println("Checking for Checkmate");
     } else {
       System.out.println("Not a valid TreeMap (TreeMap.setValue)");
     }
@@ -100,6 +104,12 @@ public class TreeMaps {
     System.out.println(piecePos.toString());
   }
   
+  /**
+   * This method is used to capture a piece by adding it to the 
+   * 'capturedPieces' ArrayList.
+   * 
+   * @param piece The piece being captured by the opponent.
+   */
   public void capturePiece(String piece) {
     capturedPieces.add(piece);
   }

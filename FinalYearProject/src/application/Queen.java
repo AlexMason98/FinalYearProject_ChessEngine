@@ -12,9 +12,9 @@ import application.exceptions.InvalidPlayerException;
  */
 public class Queen {
 
-  public Board board = new Board();
   private Piece piece = new Piece();
   private int pieceInPath = 0;
+  public boolean passedValidation = false;
   
   /**
    * This method is responsible for validating a move with a Queen piece.
@@ -28,7 +28,7 @@ public class Queen {
   public void moveQueen(String player, String selectedPiece, String toTile) 
       throws InvalidPlayerException, InvalidPieceException {
     /* Queen can move any direction, any spaces */
-    String fromTile = board.map.getTile(selectedPiece);
+    String fromTile = Board.board.map.getTile(selectedPiece);
 
     int fromRow = Integer.parseInt(String.valueOf(fromTile.charAt(0)));
     char fromColumn = fromTile.charAt(1);
@@ -39,18 +39,17 @@ public class Queen {
      * toColumn. For example, moving from 8H (where H in ASCII is 72) to 8A (where A in ASCII is 
      * 65).
      */
-    if (fromRow == toRow && (int)fromColumn > (int)toColumn) {
+    if (fromRow == toRow && fromColumn > toColumn) {
       /* CHECKING FOR ANY PIECES IN QUEEN'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
       I search each tile to the left of the current one to see if it contains any pieces, until
       reaching one tile before the Queen's destination tile */
       System.out.println("----- Moving Left  -----");
-      for (int i = (int)fromColumn - 1; i > (int)toColumn; i--) {
+      for (int i = fromColumn - 1; i > toColumn; i--) {
         // If a tile in the Queen's path is not null (occupied by a piece), move is invalid.
         System.out.println("The tile is: " + toRow + String.valueOf((char)i));
         
-        if (board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf((char)i)) 
-            == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-            "piecePos", toRow + String.valueOf((char)i))) == false) {
+        if (Board.board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf((char)i)) 
+            == "Occupied") {
           System.out.println("Illegal Move. There is a piece in your Queen's movement path "
               + "(Tile: " + toRow + String.valueOf((char)i) + ")");
           pieceInPath++;
@@ -63,17 +62,16 @@ public class Queen {
      * thefromColumn number. For example, moving from 3B (where B in ASCII is 66) to 3E (where E in 
      * ASCII is 69).
      */
-    } else if (fromRow == toRow && (int)toColumn > (int)fromColumn) {
+    } else if (fromRow == toRow && toColumn > fromColumn) {
       /* CHECKING FOR ANY PIECES IN THE QUEEN'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
       I search each tile to the right of the current tile to see if it contains any pieces (player 
       or opponent), until reaching one tile before the Queen's destination tile */
       System.out.println("----- Moving Right -----");
-      for (int i = (int)fromColumn + 1; i < (int)toColumn; i++) {
+      for (int i = fromColumn + 1; i < toColumn; i++) {
         // If a tile in the Queen's path is not null (occupied by a piece, move is invalid.
         System.out.println("The tile is: " + toRow + String.valueOf((char)i));
-        if (board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf((char)i))
-            == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-            "piecePos", toRow + String.valueOf((char)i))) == false) {
+        if (Board.board.map.getPieceOrOccupation("tileOccupation", toRow + String.valueOf((char)i))
+            == "Occupied") {
           System.out.println("Illegal Move. There is a piece in your Queen's movement path "
               + "(Tile: " + toRow + String.valueOf((char)i) + ")");
           pieceInPath++;
@@ -86,16 +84,15 @@ public class Queen {
      * number is less than the toRow number. For example, moving from 1A (where 1 is the row) to
      * 3A.
      */
-    } else if ((int)fromColumn == (int)toColumn && (fromRow < toRow)) {
+    } else if (fromColumn == toColumn && (fromRow < toRow)) {
       /* CHECKING FOR ANY PIECES IN THE QUEEN'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
       I search each tile above the current tile to see if it contains any pieces (player or 
       opponent), until reaching one tile before the Queen's destination tile. */
       System.out.println("----- Moving Up -----");
       for (int i = fromRow + 1; i < toRow; i++) {
         System.out.println("The tile is: " + i + fromColumn);
-        if (board.map.getPieceOrOccupation("tileOccupation", "" + i + fromColumn) == "Occupied"
-            && piece.isOpponentPiece(player, board.map.getPieceOrOccupation("piecePos", "" + i 
-            + fromColumn)) == false) {
+        if (Board.board.map.getPieceOrOccupation("tileOccupation", "" + i + fromColumn) 
+            == "Occupied") {
           System.out.println("Illegal Move. There is a piece in your Queen's movement path "
               + "(Tile: " + i + fromColumn + ")");
           pieceInPath++;
@@ -108,16 +105,15 @@ public class Queen {
      * number is greater than the toRow number. For example, moving from 8A (where 8 is the row) to
      * 4A.
      */
-    } else if ((int)fromColumn == (int)toColumn && (fromRow > toRow)) {
+    } else if (fromColumn == toColumn && (fromRow > toRow)) {
       /* CHECKING FOR ANY PIECES IN THE QUEEN'S MOVEMENT PATH (EXCLUDING DESTINATION TILE)
       I search each tile below the current tile to see if it contains any pieces (player or 
       opponent), until reaching one tile before the Queen's destination tile. */
       System.out.println("----- Moving Down -----");
       for (int i = fromRow - 1; i > toRow; i--) {
         System.out.println("The tile is: " + i + fromColumn);
-        if (board.map.getPieceOrOccupation("tileOccupation", "" + i + fromColumn) == "Occupied"
-            && piece.isOpponentPiece(player, board.map.getPieceOrOccupation("piecePos", "" + i
-            + fromColumn)) == false) {
+        if (Board.board.map.getPieceOrOccupation("tileOccupation", "" + i + fromColumn) 
+            == "Occupied") {
           System.out.println("Illegal Move. There is a piece in your Queen's movement path "
               + "(Tile: " + i + fromColumn + ")");
           pieceInPath++;
@@ -129,7 +125,7 @@ public class Queen {
      * the fromColumn letter, and the toRow number is greater than the fromRow number. For example,
      * moving from 1D (where 1 is the row and D is the column) to 3F.
      */
-    } else if (((int)toColumn > (int)fromColumn) && (toRow > fromRow)) {
+    } else if ((toColumn > fromColumn) && (toRow > fromRow)) {
       System.out.println("----- Moving North East -----");
       
       /* Ensuring that the diagonal move is valid by checking that the Queen
@@ -137,17 +133,16 @@ public class Queen {
        * don't get a North East move which could be 2 spaces up and 1 space
        * right for example.
        */
-      int colDifference = (int)toColumn - (int)fromColumn;
+      int colDifference = toColumn - fromColumn;
       int rowDifference = toRow - fromRow;
-      int j = (int)fromColumn;
+      int j = fromColumn;
       
       if (colDifference == rowDifference) {
       
         for (int i = fromRow + 1; i < toRow; i++) {
           ++j; // Also increments column to move East as part of moving diagonally North East
-          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j)) 
-              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-              "piecePos", i + String.valueOf((char)j))) == false) {
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j)) 
+              == "Occupied") {
             System.out.println("Illegal Move. There is a piece in your Queen's movement path "
                 + "(Tile: " + i + (char)j + ")");
             pieceInPath++;
@@ -162,7 +157,7 @@ public class Queen {
      * the fromColumn letter, and the fromRow number is greater than the toRow number. For example,
      * moving from 8D (where 8 is the row and D is the column) to 6F.
      */
-    } else if (((int)toColumn > (int)fromColumn) && (toRow < fromRow)) {
+    } else if ((toColumn > fromColumn) && (toRow < fromRow)) {
       System.out.println("----- Moving South East -----");
       
       /* Ensuring that the diagonal move is valid by checking that the Queen
@@ -170,16 +165,15 @@ public class Queen {
        * don't get a South East move which could be 2 spaces down and 1 space
        * right for example.
        */
-      int colDifference = (int)toColumn - (int)fromColumn;
+      int colDifference = toColumn - fromColumn;
       int rowDifference = fromRow - toRow;
-      int j = (int)fromColumn;
+      int j = fromColumn;
        
       if (colDifference == rowDifference) {
         for (int i = fromRow - 1; i > toRow; i--) {
           ++j; // Also increments column to move East as part of moving diagonally South East
-          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
-              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-              "piecePos", i + String.valueOf((char)j))) == false) {
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
+              == "Occupied") {
             System.out.println("Illegal Move. There is a piece in your Queen's movement path "
                 + "(Tile: " + i + (char)j + ")");
             pieceInPath++;
@@ -194,7 +188,7 @@ public class Queen {
      * the toColumn letter, and the fromRow number is greater than the toRow number. For example,
      * moving from 8D (where 8 is the row and D is the column) to 6B.
      */
-    } else if (((int)toColumn < (int)fromColumn) && (toRow < fromRow)) {
+    } else if ((toColumn < fromColumn) && (toRow < fromRow)) {
       System.out.println("----- Moving South West -----");
       
       /* Ensuring that the diagonal move is valid by checking that the Queen
@@ -203,16 +197,15 @@ public class Queen {
        * down for example.
        * 
        */
-      int colDifference = (int)fromColumn - (int)toColumn;
+      int colDifference = fromColumn - toColumn;
       int rowDifference = fromRow - toRow;
-      int j = (int)fromColumn;
+      int j = fromColumn;
       
       if (colDifference == rowDifference) {
         for (int i = fromRow - 1; i > toRow; i--) {
           --j; // Also decrements column to move West as part of moving diagonally South West.
-          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
-              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-              "piecePos", i + String.valueOf((char)j))) == false) {
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
+              == "Occupied") {
             System.out.println("Illegal Move. There is a piece in your Queen's movement path "
                 + "(Tile: " + i + (char)j + ")");
             pieceInPath++;
@@ -227,7 +220,7 @@ public class Queen {
      * the toColumn letter, and the toRow number is greater than the fromRow number. For example,
      * moving from 1D (where 1 is the row and D is the column) to 3B.
      */ 
-    } else if (((int)toColumn < (int)fromColumn) && (toRow > fromRow)) {
+    } else if ((toColumn < fromColumn) && (toRow > fromRow)) {
       System.out.println("----- Moving North West -----");
       
       /* Ensuring that the diagonal move is valid by checking that the Queen
@@ -235,16 +228,15 @@ public class Queen {
        * don't get a North West move which could be 2 spaces up and 1 space left,
        * for example.
        */
-      int colDifference = (int)fromColumn - (int)toColumn;
+      int colDifference = fromColumn - toColumn;
       int rowDifference = toRow - fromRow;
-      int j = (int)fromColumn;
+      int j = fromColumn;
        
       if (colDifference == rowDifference) {
         for (int i = fromRow + 1; i < toRow; i++) {
           --j; // Also decrements column to move West as part of moving diagonally North West.
-          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
-              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-              "piecePos", i + String.valueOf((char)j))) == false) {
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
+              == "Occupied") {
             System.out.println("Illegal Move. There is a piece in your Queen's movement path "
                 + "(Tile: " + i + (char)j + ")");
             pieceInPath++;
@@ -281,24 +273,27 @@ public class Queen {
      * This 'if' statement is checking there are zero pieces in the Queen's movement path,
      * and the destination tile is empty, so that the Queen can move there.
      */
-    if (pieceInPath == 0 && board.map.getPieceOrOccupation("tileOccupation", toTile) == "Empty") {
-      board.map.setValue("piecePos", toTile, selectedQueen);
+    if (pieceInPath == 0 && Board.board.map.getPieceOrOccupation("tileOccupation", toTile) 
+        == "Empty") {
+      passedValidation = true;
+      Board.board.map.setValue("piecePos", toTile, selectedQueen);
     
     /*
      * This 'else if' is for checking there are zero pieces in the Queen's movement path, and
      * the destination tile contains an opponent piece which the Queen can capture.
      */
-    } else if (pieceInPath == 0 && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-        "piecePos", toTile)) == true) {
-      board.map.capturePiece(board.map.getPieceOrOccupation("piecePos", toTile));
-      board.map.setValue("piecePos", toTile, selectedQueen);
+    } else if (pieceInPath == 0 && piece.isOpponentPiece(player, 
+        Board.board.map.getPieceOrOccupation("piecePos", toTile)) == true) {
+      passedValidation = true;
+      Board.board.map.capturePiece(Board.board.map.getPieceOrOccupation("piecePos", toTile));
+      Board.board.map.setValue("piecePos", toTile, selectedQueen);
     
     /* 
      * This 'else if' assumes the current player's piece is in the destination tile, as the tile is 
      * occupied but not with an opponent piece) 
      */
     } else if (piece.isOpponentPiece(player, selectedQueen) == false 
-        && board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied") {
+        && Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied") {
       System.out.println("Illegal Move. You cannot move your Queen to a tile containing your own "
           + "piece");
     }

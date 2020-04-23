@@ -5,8 +5,8 @@ import application.exceptions.InvalidPlayerException;
 
 public class Knight {
 
-  public Board board = new Board();
   private Piece piece = new Piece();
+  public boolean passedValidation = false;
   
   /**
    * This method is responsible for validating and then moving a Knight
@@ -21,7 +21,7 @@ public class Knight {
   public void moveKnight(String player, String selectedKnight, String toTile) 
       throws InvalidPieceException, InvalidPlayerException {
     
-    String fromTile = board.map.getTile(selectedKnight);
+    String fromTile = Board.board.map.getTile(selectedKnight);
     
     int fromRow = Integer.parseInt(String.valueOf(fromTile.charAt(0)));
     char fromColumn = fromTile.charAt(1);
@@ -86,19 +86,21 @@ public class Knight {
   public void setPos(String player, String selectedKnight, String toTile) 
       throws InvalidPieceException, InvalidPlayerException {
     // If the destination tile is empty
-    if (board.map.getPieceOrOccupation("tileOccupation", toTile) == "Empty") {
-      board.map.setValue("piecePos", toTile, selectedKnight);
+    if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Empty") {
+      passedValidation = true;
+      Board.board.map.setValue("piecePos", toTile, selectedKnight);
     
     // If the destination tile is occupied with an opponent player's piece
-    } else if (board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
-        && piece.isOpponentPiece(player, board.map.getPieceOrOccupation("piecePos", toTile)) 
+    } else if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
+        && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation("piecePos", toTile)) 
         == true) {
-      board.map.capturePiece(board.map.getPieceOrOccupation("piecePos", toTile));
-      board.map.setValue("piecePos", toTile, selectedKnight);
+      passedValidation = true;
+      Board.board.map.capturePiece(Board.board.map.getPieceOrOccupation("piecePos", toTile));
+      Board.board.map.setValue("piecePos", toTile, selectedKnight);
     
     // If the destination tile is occupied with player's own piece
-    } else if (board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
-         && piece.isOpponentPiece(player, board.map.getPieceOrOccupation("piecePos", toTile)) 
+    } else if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
+         && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation("piecePos", toTile)) 
          == false) {
       System.out.println("Illegal Move. You cannot move your Knight in a tile containing "
           + "your own piece");

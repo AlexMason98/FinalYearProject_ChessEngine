@@ -1,11 +1,16 @@
 package application;
 
+import application.exceptions.InvalidPieceException;
+import application.exceptions.InvalidPlayerException;
+
 public class GameLoop {
 
   private boolean whitePlayerTurn = true;
-  private boolean isKingCaptured = false;
   
   public Board board = new Board();
+  private Checkmate checkmate = new Checkmate();
+  private Stalemate stalemate = new Stalemate();
+  //public TreeMaps map = new TreeMaps();
   
   /**
    * These are the pre-conditions needed to set up the game.
@@ -19,10 +24,12 @@ public class GameLoop {
   /**
    * This is the game loop, it constantly runs until one of the two kings
    * are captured. It also checks for player turns and if a move is valid.
+   * @throws InvalidPlayerException .
+   * @throws InvalidPieceException .
    */
-  public void run() {
+  public void run() throws InvalidPieceException, InvalidPlayerException {
 
-    while (!isCheckmate()) {
+    while (!checkmate.checkmate() && !stalemate.stalemate()) {
 
       if (whitePlayerTurn == true) {
         //Move.whitePieceMove();
@@ -32,21 +39,4 @@ public class GameLoop {
 
   }
   
-  /**
-   * This method is responsible for checking if the game is over, which occurs when a player
-   * has captured their opponent's king (when a king is added to the capturedPieces array).
-   * 
-   * @return true if a King has been captured (is checkmate), false if a King hasn't been captured.
-   */
-  public boolean isCheckmate() {
-    if (board.map.capturedPieces.contains("BlackKing")) {
-      // TODO: When GUI added, call a method to display "White Player Wins" on game board
-      return true;
-    } else if (board.map.capturedPieces.contains("WhiteKing")) {
-      // TODO: When GUI added, call a method to display "Black Player Wins" on game board
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

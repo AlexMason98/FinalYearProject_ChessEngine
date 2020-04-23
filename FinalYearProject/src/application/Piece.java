@@ -4,7 +4,7 @@ import application.exceptions.InvalidPieceException;
 import application.exceptions.InvalidPlayerException;
 
 public class Piece {
-  
+ 
   /**
    * This method checks to see if the player has selected a valid piece (a piece which 
    * is theirs and not the other player's). It does this by checking if the piece contains 

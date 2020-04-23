@@ -9,8 +9,11 @@ package application;
  *
  */
 public class Board {
-
+  // Singleton Variables
+  public static Board board = new Board();
+  public static Controller controller = new Controller();
   public TreeMaps map;
+  
   
   /**
    * This is a constructor for my board class, it initialises the tiles and pieces.

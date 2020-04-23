@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?package application?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+   <children>
+      <ImageView fitHeight="900.0" fitWidth="900.0" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/Chessboard%20(900%20x%20900).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackRook1" layoutX="0.25" layoutY="0.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackRook.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackKnight1" layoutX="112.75" layoutY="0.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackKnight.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackBishop1" layoutX="225.25" layoutY="0.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackBishop.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackQueen" layoutX="337.75" layoutY="0.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackQueen.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackKing" layoutX="450.25" layoutY="0.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackKing.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackBishop2" layoutX="562.75" layoutY="0.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackBishop.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackKnight2" layoutX="675.25" layoutY="0.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackKnight.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackRook2" layoutX="787.75" layoutY="0.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackRook.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackPawn1" layoutX="0.25" layoutY="112.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackPawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackPawn2" layoutX="112.75" layoutY="112.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackPawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackPawn3" layoutX="225.25" layoutY="112.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackPawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackPawn4" layoutX="337.75" layoutY="112.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackPawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackPawn5" layoutX="450.25" layoutY="112.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackPawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackPawn6" layoutX="563.0" layoutY="113.0" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackPawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackPawn7" layoutX="675.25" layoutY="112.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackPawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="blackPawn8" layoutX="787.75" layoutY="112.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/BlackPawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whiteRook1" layoutX="0.25" layoutY="787.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhiteRook.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whiteRook2" layoutX="787.75" layoutY="787.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhiteRook.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whiteKnight1" layoutX="112.75" layoutY="787.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhiteKnight.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whiteKnight2" layoutX="675.25" layoutY="787.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhiteKnight.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whiteBishop1" layoutX="222.25" layoutY="787.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhiteBishop.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whiteBishop2" layoutX="562.75" layoutY="787.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhiteBishop.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whiteQueen" layoutX="337.75" layoutY="787.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhiteQueen.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whiteKing" layoutX="450.25" layoutY="787.75" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhiteKing.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whitePawn1" layoutX="0.25" layoutY="675.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhitePawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whitePawn2" layoutX="112.75" layoutY="675.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhitePawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whitePawn3" layoutX="225.25" layoutY="675.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhitePawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whitePawn4" layoutX="337.75" layoutY="675.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhitePawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whitePawn7" layoutX="675.25" layoutY="675.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhitePawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whitePawn5" layoutX="450.25" layoutY="675.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhitePawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whitePawn6" layoutX="562.75" layoutY="675.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhitePawn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="whitePawn8" layoutX="787.75" layoutY="675.25" onMouseClicked="#pieceClicked">
+         <image>
+            <Image url="@../img/WhitePawn.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

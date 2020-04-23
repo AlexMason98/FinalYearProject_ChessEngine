@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class King {
 
-  public Board board = new Board();
   private Piece piece = new Piece();
   public ArrayList<String> movedKing = new ArrayList<String>();
+  public boolean passedValidation = false;
   
   /**
    * This method is responsible for validating and then moving a King piece.
@@ -22,7 +22,7 @@ public class King {
    */
   public void moveKing(String player, String selectedPiece, String toTile) 
       throws InvalidPieceException, InvalidPlayerException {
-    String fromTile = board.map.getTile(selectedPiece);
+    String fromTile = Board.board.map.getTile(selectedPiece);
     
     int fromRow = Character.getNumericValue(fromTile.charAt(0));
     int fromColumn = Character.getNumericValue(fromTile.charAt(1));
@@ -72,6 +72,7 @@ public class King {
     
     } else {
       System.out.println("Illegal Move. Please move your King in accordance to the game's rules");
+      passedValidation = false;
     }
   }
   
@@ -86,22 +87,27 @@ public class King {
   public void setPos(String player, String selectedPiece, String toTile) 
       throws InvalidPieceException, InvalidPlayerException {
     // If the destination tile is empty
-    if (board.map.getPieceOrOccupation("tileOccupation", toTile) == "Empty") {
+    if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Empty") {
+    	System.out.println("Lands in Tile Empty");
+      passedValidation = true;
       movedKing.add(selectedPiece);
-      board.map.setValue("piecePos", toTile, selectedPiece);
+      Board.board.map.setValue("piecePos", toTile, selectedPiece);
     
     // If the destination tile is occupied with an opponent player's piece
-    } else if (board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
-        && piece.isOpponentPiece(player, board.map.getPieceOrOccupation("piecePos", toTile)) 
+    } else if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
+        && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation("piecePos", toTile)) 
         == true) {
+    	System.out.println("Lands in Opponent Piece");
+      passedValidation = true;
       movedKing.add(selectedPiece);
-      board.map.capturePiece(board.map.getPieceOrOccupation("piecePos", toTile));
-      board.map.setValue("piecePos", toTile, selectedPiece);
+      Board.board.map.capturePiece(Board.board.map.getPieceOrOccupation("piecePos", toTile));
+      Board.board.map.setValue("piecePos", toTile, selectedPiece);
     
     // If the destination tile is occupied with player's own piece
-    } else if (board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
-         && piece.isOpponentPiece(player, board.map.getPieceOrOccupation("piecePos", toTile)) 
+    } else if (Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied"
+         && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation("piecePos", toTile)) 
          == false) {
+      System.out.println("KING CLASS: LANDS IN HERE");
       // ADD A CONDITION TO CHECK FOR CASES WHEN CASTLING
       System.out.println("Illegal Move. You cannot move your King on your own piece");
       

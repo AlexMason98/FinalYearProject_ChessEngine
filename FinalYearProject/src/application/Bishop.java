@@ -5,9 +5,9 @@ import application.exceptions.InvalidPlayerException;
 
 public class Bishop {
 
-  public Board board = new Board();
   private Piece piece = new Piece();
   private int pieceInPath = 0;
+  public boolean passedValidation = false;
 
   /**
    * This method is responsible for validating and then moving a Bishop piece.
@@ -21,7 +21,7 @@ public class Bishop {
   public void moveBishop(String player, String selectedBishop, String toTile) 
       throws InvalidPlayerException, InvalidPieceException {
   
-    String fromTile = board.map.getTile(selectedBishop);
+    String fromTile = Board.board.map.getTile(selectedBishop);
 
     int fromRow = Integer.parseInt(String.valueOf(fromTile.charAt(0)));
     char fromColumn = fromTile.charAt(1);
@@ -32,7 +32,7 @@ public class Bishop {
      * the fromColumn letter, and the toRow number is greater than the fromRow number. For example,
      * moving from 1D (where 1 is the row and D is the column) to 3F.
      */
-    if (((int)toColumn > (int)fromColumn) && (toRow > fromRow)) {
+    if ((toColumn > fromColumn) && (toRow > fromRow)) {
       System.out.println("----- Moving North East -----");
       
       /* Ensuring that the diagonal move is valid by checking that the Bishop
@@ -40,16 +40,16 @@ public class Bishop {
        * don't get a North East move which could be 2 spaces up and 1 space
        * right for example.
        */
-      int colDifference = (int)toColumn - (int)fromColumn;
+      int colDifference = toColumn - fromColumn;
       int rowDifference = toRow - fromRow;
-      int j = (int)fromColumn;
+      int j = fromColumn;
       
       if (colDifference == rowDifference) {
       
         for (int i = fromRow + 1; i < toRow; i++) {
           ++j; // Also increments column to move East as part of moving diagonally North East
-          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j)) 
-              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j)) 
+              == "Occupied" && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation(
               "piecePos", i + String.valueOf((char)j))) == false) {
             System.out.println("Illegal Move. There is a piece in your Bishop's movement path "
                 + "(Tile: " + i + (char)j + ")");
@@ -67,7 +67,7 @@ public class Bishop {
      * the fromColumn letter, and the fromRow number is greater than the toRow number. For example,
      * moving from 8C (where 8 is the row and C is the column) to 6E.
      */
-    } else if (((int)toColumn > (int)fromColumn) && (toRow < fromRow)) {
+    } else if ((toColumn > fromColumn) && (toRow < fromRow)) {
       System.out.println("----- Moving South East -----");
       
       /* Ensuring that the diagonal move is valid by checking that the Bishop
@@ -75,17 +75,17 @@ public class Bishop {
        * don't get a South East move which could be 2 spaces down and 1 space
        * right for example.
        */
-      int colDifference = (int)toColumn - (int)fromColumn;
+      int colDifference = toColumn - fromColumn;
       int rowDifference = fromRow - toRow;
-      int j = (int)fromColumn;
+      int j = fromColumn;
        
       if (colDifference == rowDifference) {
         for (int i = fromRow - 1; i > toRow; i--) {
           System.out.println("i is: " + i);
           ++j; // Also increments column to move East as part of moving South East diagonally.
           System.out.println("j is " + (char)j);
-          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
-              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
+              == "Occupied" && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation(
               "piecePos", i + String.valueOf((char)j))) == false) {
             System.out.println("Illegal Move. There is a piece in your Bishop's movement path "
                 + "(Tile: " + i + (char)j + ")");
@@ -103,7 +103,7 @@ public class Bishop {
      * the toColumn letter, and the fromRow number is greater than the toRow number. For example,
      * moving from 8D (where 8 is the row and D is the column) to 6B.
      */
-    } else if (((int)toColumn < (int)fromColumn) && (toRow < fromRow)) {
+    } else if ((toColumn < fromColumn) && (toRow < fromRow)) {
       System.out.println("----- Moving South West -----");
       
       /* Ensuring that the diagonal move is valid by checking that the Bishop
@@ -112,15 +112,15 @@ public class Bishop {
        * down for example.
        * 
        */
-      int colDifference = (int)fromColumn - (int)toColumn;
+      int colDifference = fromColumn - toColumn;
       int rowDifference = fromRow - toRow;
-      int j = (int)fromColumn;
+      int j = fromColumn;
       
       if (colDifference == rowDifference) {
         for (int i = fromRow - 1; i > toRow; i--) {
           --j; // Also decrements column to move West as part of moving diagonally South West.
-          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
-              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
+              == "Occupied" && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation(
               "piecePos", i + String.valueOf((char)j))) == false) {
             System.out.println("Illegal Move. There is a piece in your Bishop's movement path "
                 + "(Tile: " + i + (char)j + ")");
@@ -138,7 +138,7 @@ public class Bishop {
      * the toColumn letter, and the toRow number is greater than the fromRow number. For example,
      * moving from 1D (where 1 is the row and D is the column) to 3B.
      */ 
-    } else if (((int)toColumn < (int)fromColumn) && (toRow > fromRow)) {
+    } else if ((toColumn < fromColumn) && (toRow > fromRow)) {
       System.out.println("----- Moving North West -----");
       
       /* Ensuring that the diagonal move is valid by checking that the Bishop
@@ -146,15 +146,15 @@ public class Bishop {
        * don't get a North West move which could be 2 spaces up and 1 space left,
        * for example.
        */
-      int colDifference = (int)fromColumn - (int)toColumn;
+      int colDifference = fromColumn - toColumn;
       int rowDifference = toRow - fromRow;
-      int j = (int)fromColumn;
+      int j = fromColumn;
        
       if (colDifference == rowDifference) {
         for (int i = fromRow + 1; i < toRow; i++) {
           --j; // Also decrements column to move West as part of moving diagonally North West.
-          if (board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
-              == "Occupied" && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
+          if (Board.board.map.getPieceOrOccupation("tileOccupation", i + String.valueOf((char)j))
+              == "Occupied" && piece.isOpponentPiece(player, Board.board.map.getPieceOrOccupation(
               "piecePos", i + String.valueOf((char)j))) == false) {
             System.out.println("Illegal Move. There is a piece in your Bishop's movement path "
                 + "(Tile: " + i + (char)j + ")");
@@ -195,24 +195,27 @@ public class Bishop {
      * This 'if' statement is checking there are zero pieces in the Bishop's movement path,
      * and the destination tile is empty, so that the Bishop can move there.
      */
-    if (pieceInPath == 0 && board.map.getPieceOrOccupation("tileOccupation", toTile) == "Empty") {
-      board.map.setValue("piecePos", toTile, selectedBishop);
+    if (pieceInPath == 0 && Board.board.map.getPieceOrOccupation("tileOccupation", toTile) 
+        == "Empty") {
+      passedValidation = true;
+      Board.board.map.setValue("piecePos", toTile, selectedBishop);
     
     /*
      * This 'else if' is for checking there are zero pieces in the Bishop's movement path, and
      * the destination tile contains an opponent piece which the Bishop can capture.
      */
-    } else if (pieceInPath == 0 && piece.isOpponentPiece(player, board.map.getPieceOrOccupation(
-        "piecePos", toTile)) == true) {
-      board.map.capturePiece(board.map.getPieceOrOccupation("piecePos", toTile));
-      board.map.setValue("piecePos", toTile, selectedBishop);
+    } else if (pieceInPath == 0 && piece.isOpponentPiece(player, 
+        Board.board.map.getPieceOrOccupation("piecePos", toTile)) == true) {
+      passedValidation = true;
+      Board.board.map.capturePiece(Board.board.map.getPieceOrOccupation("piecePos", toTile));
+      Board.board.map.setValue("piecePos", toTile, selectedBishop);
     
     /* 
      * This 'else if' assumes the current player's piece is in the destination tile, as the tile is 
      * occupied but not with an opponent piece) 
      */
     } else if (piece.isOpponentPiece(player, selectedBishop) == false 
-        && board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied") {
+        && Board.board.map.getPieceOrOccupation("tileOccupation", toTile) == "Occupied") {
       System.out.println("Illegal Move. You cannot move your Bishop to a tile containing your own "
           + "piece");
     }
